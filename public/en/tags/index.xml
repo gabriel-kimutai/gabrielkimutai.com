@@ -1,1 +1,74 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Tags on Gabriel.</title><link>http://localhost:1313/en/tags/</link><description>Recent Posts in Tags on Gabriel.</description><generator>Hugo 0.162.1</generator><language>en</language><managingEditor>email@example.com (Author Name)</managingEditor><webMaster>email@example.com (Author Name)</webMaster><lastBuildDate>Tue, 11 Aug 2026 10:46:13 +0300</lastBuildDate><atom:link href="http://localhost:1313/en/tags/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" >
+  <channel>
+    <title>Tags on Gabriel.</title>
+    <link>http://localhost:1313/en/tags/</link>
+    <description>Recent Posts in Tags on Gabriel.</description>
+    <generator>Hugo 0.162.1</generator>
+    <language>en</language>
+    <managingEditor>contact@gabrielkimutai.com (Gabriel Kimutai)</managingEditor>
+    <webMaster>contact@gabrielkimutai.com (Gabriel Kimutai)</webMaster>
+    <lastBuildDate>Tue, 11 Aug 2026 15:51:22 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android</title>
+      <link>http://localhost:1313/en/tags/android/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/android/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+    <item>
+      <title>Go</title>
+      <link>http://localhost:1313/en/tags/go/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/go/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>http://localhost:1313/en/tags/linux/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/linux/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+    <item>
+      <title>MDNS</title>
+      <link>http://localhost:1313/en/tags/mdns/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/mdns/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>http://localhost:1313/en/tags/networking/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/networking/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+    <item>
+      <title>Remote Management</title>
+      <link>http://localhost:1313/en/tags/remote-management/</link>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 +0000</pubDate>
+      <author>contact@gabrielkimutai.com (Gabriel Kimutai)</author>
+      <dc:creator>Gabriel Kimutai</dc:creator>
+      <guid>http://localhost:1313/en/tags/remote-management/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+    </item>
+  </channel>
+</rss>

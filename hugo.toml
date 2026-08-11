@@ -84,9 +84,9 @@ ignoreFiles = [ '\.redacted', '\.old','\.bak', '\.tmp', '\.swp', '\.DS_Store']
     ## Author information
     [params.author]
         ## site author's name
-        name = 'Author Name'
+        name = 'Gabriel Kimutai'
         ## Author's email
-        email = 'email@example.com'
+        email = 'contact@gabrielkimutai.com'
         ## Other method to customize author and co-authors information
         coauthor = [
             {name = "A.N. Other", bio = "Lorem ipsum dolor sit amet."}
@@ -166,7 +166,7 @@ ignoreFiles = [ '\.redacted', '\.old','\.bak', '\.tmp', '\.swp', '\.DS_Store']
         ## override maximum series/related post count
         # RelatedLimit = 5
         ## Show share buttons
-        share = true
+        share = false
         ## enable section numbering
         secnum = false
 

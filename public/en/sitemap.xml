@@ -1,1 +1,64 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>http://localhost:1313/en/author/</loc><changefreq>monthly</changefreq></url><url><loc>http://localhost:1313/en/categories/</loc><changefreq>monthly</changefreq></url><url><loc>http://localhost:1313/en/</loc><changefreq>monthly</changefreq></url><url><loc>http://localhost:1313/en/tags/</loc><changefreq>monthly</changefreq></url></urlset>
+
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:1313/en/tags/android/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/go/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/post/heimdall/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/linux/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/mdns/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/networking/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/post/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/remote-management/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/tags/</loc>
+    <lastmod>2026-08-11T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/author/</loc>
+    
+    <changefreq>monthly</changefreq>
+    </url>
+  <url>
+    <loc>http://localhost:1313/en/categories/</loc>
+    
+    <changefreq>monthly</changefreq>
+    </url>
+</urlset>
