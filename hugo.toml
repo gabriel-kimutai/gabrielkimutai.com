@@ -1,7 +1,7 @@
 ## Base URL for the site
 baseURL = 'https://gabrielkimutai.com'
 ## Site title
-title = 'Gabriel.'
+title = 'Gabriel Kimutai'
 ## Use hugo-brewm theme
 theme = 'hugo-brewm'
 ## Enable Git information for pages, (e.g. lastMod date information)
@@ -14,32 +14,31 @@ defaultContentLanguage = 'en'
 defaultContentLanguageInSubdir = true
 ## Generate a robots.txt
 enableRobotsTXT = true
-## Use sections for main menu
-# sectionPagesMenu = 'main'
 ## Files to ignore when building site
-ignoreFiles = [ '\.redacted', '\.old','\.bak', '\.tmp', '\.swp', '\.DS_Store']
+ignoreFiles = ['\.redacted', '\.old', '\.bak', '\.tmp', '\.swp', '\.DS_Store']
 
 ## markup configuration
 [markup]
 
     [markup.highlight]
-        ## Enable code fence highlighting
         codeFences = true
-        ## Use hugo-brewm classes for verbatim styling
         noClasses = true
+
+    [markup.goldmark.renderer]
+        unsafe = true
 
     [markup.goldmark.extensions]
         [markup.goldmark.extensions.passthrough]
-            ## Enable internal math render
             enable = true
-            ## Set math delimiters
             [markup.goldmark.extensions.passthrough.delimiters]
                 block = [['\[', '\]'], ['$$', '$$'], ['\begin{equation}', '\end{equation}'], ['\begin{align}', '\end{align}']]
-                inline = [['\(', '\)'], ['$', '$'] ]
+                inline = [['\(', '\)'], ['$', '$']]
+
+[outputs]
+    home = ['html', 'rss', 'json']
 
 ## Sitemap configuration
 [sitemap]
-    ## Change frequency setting (will affect posts listings layout): 'always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'
     changeFreq = 'monthly'
 
 ## Taxonomy register
@@ -47,170 +46,145 @@ ignoreFiles = [ '\.redacted', '\.old','\.bak', '\.tmp', '\.swp', '\.DS_Store']
     category = 'categories'
     tag = 'tags'
     author = 'author'
-    # series = 'series'
-    # lenses = 'lenses'
-    # cameras = 'cameras'
 
 ## Site parameters
 [params]
-    ## Site title
-    title = "Example"
-    ## Site description
-    description = "An ExampleSite built with Hugo and Hugo-Brewm theme"
-    ## Copyright notice on colophon
-    copyright = "Copyright 2025 © gabrielkimutai"
-    ## Hide "powered by hugo" on colophon
+    title = "Gabriel Kimutai"
+    description = "Software Developer / Engineer. I build backend systems, developer infrastructure, and applications that solve real problems."
+    copyright = "© 2026 Gabriel Kimutai"
+    ## Sections featured on the home feed (used by layouts/partials/paginator.html)
+    mainSections = ['work', 'writing']
     HideHugoCredit = true
-    ## Enable extended metadata (social cards)
-    extMeta = false
-    ## Enable coffee metric
+    extMeta = true
     coffeeStat = false
-    ## Default social card image, recommended resolution: 1200 x 630px
-    # images = "example.com/img/social-share.jpg"
-    ## Do not block AI user agent for robot.txt
     AllowAIRobots = false
-    ## or BearMode--Minimize clutter for small site; Disable breadcrumbs menu, share button, related posts, colophon and redaction history.
-    ZenMode = false
-    ## Disable black background on main-footer
+    ZenMode = true
     DisableFootBar = false
-    ## Merge site license, footer menu and coffee stat
     unifiedFooter = true
 
-    ## At the moment, analytics can be added manually by creating a custom template at `mysite/layouts/partials/analytics.html`
     [params.analytics]
-        ## Choose where to append analytics script: use 'head' to place within <head> tags, or 'body' to place before closing </body> tag.
         append = 'body'
 
-    ## Author information
     [params.author]
-        ## site author's name
         name = 'Gabriel Kimutai'
-        ## Author's email
         email = 'contact@gabrielkimutai.com'
-        ## Other method to customize author and co-authors information
-        coauthor = [
-            {name = "A.N. Other", bio = "Lorem ipsum dolor sit amet."}
-        ]
 
-    ## Comments configuration
+    [params.social]
+        github = 'https://github.com/gabriel-kimutai'
+        linkedin = 'https://www.linkedin.com/in/gabriel-kimutai-72b958235'
+        email = 'mailto:contact@gabrielkimutai.com'
+
     [params.comments]
-        ## Disable comments (disable fediverse comments)
-        disabled = false
-        ## Comment platform selection, pending rule implementation
-        # platform = 'giscus'
+        disabled = true
 
-    ## Favicon configuration
     [params.favicon]
-        # png = '/favicon-96x96.png'
-        # svg = '/favicon.svg'
-        # ico = '/favicon.ico'
-        # apple = '/apple-touch-icon.png'
-        # appTitle = 'App Title'
-        # webmanifest = '/site.webmanifest'
 
-    ## Fediverse integration settings for verification
     [params.fediverse]
-        ## Fediverse instance URL
-        instance = 'example.com'
-        ## Fediverse username
-        username = 'username'
+        instance = ''
+        username = ''
 
-    ## Feed display settings
     [params.feed]
-        ## Enable flowlines
-        flowlines = true
-        ## Limit number of flowlines with maximum 42
-        flowlinesLimit = 21
-        ## Overide Flowlines illustration
-        OverrideFlowlinesDir = 'https://raw.githubusercontent.com/foxihd/hugo-et-hd/master/static/svg/flowlines/'
-        ## Illustration extension on overiding flowlines
-        flowlinesExt = 'svg'
+        flowlines = false
+        flowlinesLimit = 0
 
-
-    ## Home page display settings
     [params.home]
-        ## Disable slide carousel
-        disableSlide = false
-        ## Disable taxonomy listing carousel
-        disableListing = false
-        ## Select taxonomy listing to be featured
-        # featuredListing = ['categories', 'series', 'author', 'cameras', 'lenses']
-        ## include section nodes in json
+        disableSlide = true
+        disableListing = true
         includeSectionInJson = false
 
-    ## Logo configuration
     [params.logo]
-        ## define `#logomark` `content` in CSS
-        ## logoInlineCSS = false
-        ## Light mode logo mark
-        logoMark = 'https://example.com/logoMark.svg'
-        ## Dark mode logo mark
-        logoMarkDark = 'https://example.com/logoMarkDark.svg'
-        ## Enable logo type
-        logoType = false
+        ## Render site title as logotype in the header
+        logoType = true
 
-    ## Post display settings
     [params.posts]
-        ## Enable text justification
         justifying = false
-        ## Disable paragraph indentation
-        noIndent = false
-        ## Use sans-serif fonts as default
-        sfdefault = false
-        ## Show colophon section (including QR code)
-        colophon = true
-        ## disable redaction history
-        disableHistory = false
-        ## Show related content
-        related = true
-        ## override maximum series/related post count
-        # RelatedLimit = 5
-        ## Show share buttons
+        noIndent = true
+        sfdefault = true
+        colophon = false
+        disableHistory = true
+        related = false
         share = false
-        ## enable section numbering
         secnum = false
 
-    ## Search configuration
     [params.RSS]
-        limit = 15 # item limit default: 15
-        content = 15 # limit item with full content
+        limit = 15
+        content = 15
 
-    ## Adjust color scheme for accent, background, foreground and midtone
     [params.style]
         [params.style.light]
-            ac = '#800'
-            bg = '#eee'
-            fg = '#111'
-            mid = 'gray'
+            ac = '#0f766e'
+            bg = '#f4f4f5'
+            fg = '#18181b'
+            mid = '#71717a'
             [params.style.light.less]
-                ac = 'red'
             [params.style.light.more]
         [params.style.dark]
-            ac = '#f80'
-            bg = '#000'
-            fg = '#fff'
-            mid= 'gray'
+            ac = '#2dd4bf'
+            bg = '#0a0a0a'
+            fg = '#fafafa'
+            mid = '#a1a1aa'
             [params.style.dark.less]
             [params.style.dark.more]
 
-    ## Search configuration
     [params.search]
-        ## Enable search functionality, please index your site first
         enable = true
-        ## Use pagefind search when javascript enabled, currently only 'pagefind' is supported, further options to be determined
         pagefind = true
-        ## fallback searchbox when javascript disabled, currently the options limited to 'mojeek', otherwise duckduckgo will be used
-        # fallback = 'mojeek'
 
-    ## Typography settings
     [params.typeface]
-        ## Use web safe fonts (will overide font selection below)
         webSafe = false
-        ## Serif font selection: 'Cormorant' 'EB Garamond' and 'crimson' (default)
         roman = 'crimson'
-        ## Sans-serif font selection: 'Inter' 'Montserrat' 'Rorasio' and 'Lexica Ultralegible' (default)
         sans = 'inter'
-        ## Host fonts on local host instead of GitHub
         localHost = false
-        ## Reduce icon subset for base-ui to only 38 icon (save up to 15KB)
-        minimalUI = false
+        minimalUI = true
+
+## Main navigation
+[[menus.main]]
+    name = 'Work'
+    pageRef = '/work'
+    weight = 1
+
+[[menus.main]]
+    name = 'Engineering'
+    pageRef = '/engineering'
+    weight = 2
+
+[[menus.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 3
+
+[[menus.main]]
+    name = 'Writing'
+    pageRef = '/writing'
+    weight = 4
+
+[[menus.main]]
+    name = 'Contact'
+    pageRef = '/contact'
+    weight = 5
+
+## Footer social links
+[[menus.footer]]
+    name = 'GitHub'
+    identifier = 'github'
+    url = 'https://github.com/gabriel-kimutai'
+    weight = 1
+    pre = 'github'
+    [menus.footer.params]
+        target = '_blank'
+
+[[menus.footer]]
+    name = 'LinkedIn'
+    identifier = 'linkedin'
+    url = 'https://www.linkedin.com/in/gabriel-kimutai-72b958235'
+    weight = 2
+    pre = 'linkedin'
+    [menus.footer.params]
+        target = '_blank'
+
+[[menus.footer]]
+    name = 'Email'
+    identifier = 'email'
+    url = 'mailto:contact@gabrielkimutai.com'
+    weight = 3
+    pre = 'email'

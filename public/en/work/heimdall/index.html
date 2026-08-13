@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <!-- head.html --><!-- meta.html -->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heimdall | Gabriel Kimutai</title>
+<meta name="author" content="Gabriel Kimutai">
+<meta name="description" content="A local-network computer management platform: Android discovery and control of machines through a dedicated Linux daemon." >
+<meta name="keywords" content="Go,Kotlin,Android,Networking,mDNS,Linux">
+<link rel="canonical" href="http://localhost:1313/en/work/heimdall/">
+
+
+
+    
+    <!-- twitterCard -->
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Heimdall | Gabriel Kimutai" />
+    <meta name="twitter:description" content="A local-network computer management platform: Android discovery and control of machines through a dedicated Linux daemon." />
+    
+    <!-- openGraph -->
+    <meta property="og:title" content="Heimdall | Gabriel Kimutai" />
+    <meta property="og:description" content="A local-network computer management platform: Android discovery and control of machines through a dedicated Linux daemon." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://localhost:1313/en/work/heimdall/" />
+    <meta property="og:site_name" content="Gabriel Kimutai" />
+    <!-- js.html -->
+            <script src="http://localhost:1313/hugo-brewm.min.js" defer></script><!-- css.html -->
+            <link rel="stylesheet" href="http://localhost:1313/hugo-brewm.min.css">
+
+
+
+    
+    <!-- css/inline.html -->
+    <style>
+         
+        body {max-width: 786px; margin: auto; padding: 2rem;}
+        img {max-width: 86vw;}
+            * p {text-indent: unset !important;}
+    </style>
+    
+    
+    
+</head>
+<body>
+    <!-- header.html -->
+<header class="pagewidth">
+    <div id="background-header" class="background" aria-hidden="true"></div>
+    
+    <nav aria-label="Bypass">
+        <a id="to-content" href="#content" aria-label="Skip to Main Content">
+            <span>Skip to Main Content</span>
+            <kbd class="key" aria-hidden="true" data-key="c"></kbd>
+            <span class="screening" aria-hidden="true"></span>
+        </a>
+    </nav>
+    
+    <!-- logo.html -->
+    <div id="logo">
+        <a href="http://localhost:1313/en/" aria-label="Gabriel Kimutai" aria-description="Homepage"><svg id="logotype" xmlns="http://www.w3.org/2000/svg" version="1.1" width="420pt" aria-label="Gabriel Kimutai">
+                        <text id="logotype__text" y="19.5pt" x="0">Gabriel Kimutai</text>
+                    </svg>
+        </a>
+        <hr class="hide"/>
+    </div>
+    
+    <details class="presentation" id="top-nav">
+        <summary class="on-deck">
+            <span class="t">Navigation</span>
+            <span class="menu-icon" role="presentation"></span>
+        </summary>
+        <nav tabindex="-1" aria-label="Top">
+            <!-- menu.html -->
+    <details id="has-main-menu" class="presentation" open>
+        <summary  class="hide"  aria-label="Main Menu">
+            <span>Main Menu</span>
+        </summary>
+            
+            <nav id="main-menu" aria-label="Main Menu">
+                <ul class="l1   has-childfree " role="presentation" tabindex="-1" >
+                    
+    
+        <li role="presentation" >
+    <a   aria-current=true class=on-deck href=http://localhost:1313/en/work/
+
+        >
+        
+            <span>
+                Work</span>
+    </a>
+        </li>
+        <li role="presentation" >
+    <a   class=on-deck href=http://localhost:1313/en/engineering/
+
+        >
+        
+            <span>
+                Engineering</span>
+    </a>
+        </li>
+        <li role="presentation" >
+    <a   class=on-deck href=http://localhost:1313/en/about/
+
+        >
+        
+            <span>
+                About</span>
+    </a>
+        </li>
+        <li role="presentation" >
+    <a   class=on-deck href=http://localhost:1313/en/writing/
+
+        >
+        
+            <span>
+                Writing</span>
+    </a>
+        </li>
+        <li role="presentation" >
+    <a   class=on-deck href=http://localhost:1313/en/contact/
+
+        >
+        
+            <span>
+                Contact</span>
+    </a>
+        </li>
+                </ul>
+            </nav>
+    </details>
+            <!-- search.html -->
+<details id="has-search" class="presentation js-details" name="on-deck">
+    <summary class="on-deck srm" accesskey="q" aria-labelledby="search-label" aria-keyshortcuts="q">
+        <span id="search-label" class="t srt">Search</span>
+    </summary>
+    
+        <!-- pagefind.html -->
+    <div id="search" class="on-hull">
+        <div role="presentation" class="screening js-cgpn"></div>
+    </div>
+    <script src="http://localhost:1313/pagefind/pagefind-ui.js" type="text/javascript"></script>
+    <script>
+        let pageFindInitialized = false;
+        const initPageFind = function(event) {
+            if (!pageFindInitialized) {
+                new PagefindUI({
+                    element: "#search",
+                    showImages: false,
+                    translations: {
+                        placeholder: "Search"
+                    }
+                });
+                
+                const pFInput = document.querySelector('.pagefind-ui__search-input');
+                if (pFInput) {
+                    pFInput.setAttribute('aria-label', pFInput.getAttribute('placeholder'));
+                    pFInput.setAttribute('name', pFInput.getAttribute('placeholder'));
+                }
+                pageFindInitialized = true;
+                document.removeEventListener('DOMContentLoaded', initPageFind);
+            }
+        };
+        document.addEventListener('DOMContentLoaded', initPageFind);
+    </script>
+        <noscript id="has-search-fallback" class="on-hull">
+                
+    <!-- duckduckgo.html -->
+    <form id="duckduckgo" class="form on-plank"
+        name="" action="//duckduckgo.com/"
+        role="search" aria-label="Search">
+        <input type="hidden" value="localhost:1313" name="sites"></input>
+        <input type="hidden" value="1" name="kh"></input>
+        <input type="hidden" value="1" name="kn"></input>
+        <input type="hidden" value="1" name="kac"></input>
+        <input class="ldots form__input" type="search" placeholder="Search" name="q" role="searchbox"></input>
+        <button class="form__button" type="submit" aria-label="Search">
+            <img src="https://duckduckgo.com/assets/logo_header.v109.svg" alt="Search" role="presentation" aria-hidden="true">
+        </button>
+    </form>
+    <div role="presentation" class="screening js-cgpn"></div>
+        </noscript>
+    
+</details>
+
+            <!-- menu.html -->
+            <!-- i18n.html -->
+
+        </nav>
+        <div id="top-nav-screen" class="screening js-cpn" role="presentation" aria-hidden="true"></div>
+        <hr class="hide"/>
+    </details>
+</header>
+    
+    <!-- [main] baseof.html -->
+    <main id="page"class="work"
+        >
+        <!-- main/header.html -->
+        <header class="pagewidth">
+            <!-- nav.html -->
+<details class="presentation" aria-expanded="true" id="has-breadcrumb" open>
+    <summary id="breadcrumb" tabindex="-1">
+        <span>Breadcrumb</span>
+    </summary>
+        <nav aria-labelledby="breadcrumb">
+            <ul role="presentation" class="breadcrumb ">
+                    <!-- breadcrumb.html -->
+        <li>
+            <a href="http://localhost:1313/en/work/" aria-current="true">Work
+            </a>
+        </li>
+    <li>
+        <a href="" aria-current="page" tabindex="-1">Heimdall
+        </a>
+    </li>
+            </ul>
+        </nav>
+</details>
+            <hr class="hide"/>
+        </header>
+        <div id="top" role="presentation">
+            
+        </div>
+        
+    <article id="main-article" class="pagewidth sf"
+        role="document" aria-labelledby="title"
+            data-pagefind-ignore="all">
+        <header aria-labelledby="title">
+            <!-- title.html -->
+        <h1 id="title"
+            data-bionRead-safe
+            >Heimdall</h1>
+        </header>
+        <!-- audio.html -->
+        <section id="content" class="content " aria-labelledby="title" data-bionRead-safe>
+                <div class="project-meta">
+<dl>
+<dt>Problem</dt>
+<dd>Discover and remotely manage computers on a local network from an Android device through a small, authenticated agent — not a remote desktop stream.</dd>
+<dt>Stack</dt>
+<dd>
+<ul class="tech-list">
+<li>Go</li>
+<li>Kotlin</li>
+<li>Android</li>
+<li>mDNS</li>
+<li>UDP</li>
+<li>Linux</li>
+<li>systemd</li>
+</ul>
+</dd>
+</dl>
+</div>
+<h2 id="overview">Overview</h2>
+<p>Heimdall is a <strong>systems project</strong>: a phone client and a computer daemon connected by a purpose-built protocol.</p>
+<p>Install a small daemon on a computer, open Heimdall on Android, discover the machine on the LAN, pair once, then manage the host from the phone.</p>
+<p>It is not a traditional remote desktop application. The goal is lightweight computer management — process control, system stats, power actions — with a native Android interface and a small agent on the host.</p>
+<h2 id="problem">Problem</h2>
+<p>Managing a machine from a phone usually means either:</p>
+<ul>
+<li>typing IP addresses and hoping DHCP does not move them, or</li>
+<li>pulling an entire desktop stream for actions that only need a few commands.</li>
+</ul>
+<p>Heimdall targets a different shape of problem: <strong>service discovery + authenticated control</strong> for operational tasks.</p>
+<h2 id="architecture">Architecture</h2>
+
+
+
+<div class="goat svg-container ">
+	
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			font-family="Menlo,Lucida Console,monospace"
+			
+				viewBox="0 0 320 281"
+			>
+			<g transform='translate(8,16)'>
+<path d='M 0,0 L 184,0' fill='none' stroke='currentColor'></path>
+<path d='M 0,48 L 88,48' fill='none' stroke='currentColor'></path>
+<path d='M 88,48 L 184,48' fill='none' stroke='currentColor'></path>
+<path d='M 0,128 L 184,128' fill='none' stroke='currentColor'></path>
+<path d='M 0,176 L 88,176' fill='none' stroke='currentColor'></path>
+<path d='M 88,176 L 184,176' fill='none' stroke='currentColor'></path>
+<path d='M 40,208 L 88,208' fill='none' stroke='currentColor'></path>
+<path d='M 88,208 L 136,208' fill='none' stroke='currentColor'></path>
+<path d='M 136,208 L 184,208' fill='none' stroke='currentColor'></path>
+<path d='M 184,208 L 232,208' fill='none' stroke='currentColor'></path>
+<path d='M 0,0 L 0,48' fill='none' stroke='currentColor'></path>
+<path d='M 0,128 L 0,176' fill='none' stroke='currentColor'></path>
+<path d='M 40,208 L 40,240' fill='none' stroke='currentColor'></path>
+<path d='M 88,48 L 88,112' fill='none' stroke='currentColor'></path>
+<path d='M 88,176 L 88,208' fill='none' stroke='currentColor'></path>
+<path d='M 88,208 L 88,240' fill='none' stroke='currentColor'></path>
+<path d='M 136,208 L 136,240' fill='none' stroke='currentColor'></path>
+<path d='M 184,0 L 184,48' fill='none' stroke='currentColor'></path>
+<path d='M 184,128 L 184,176' fill='none' stroke='currentColor'></path>
+<path d='M 184,208 L 184,240' fill='none' stroke='currentColor'></path>
+<path d='M 232,208 L 232,240' fill='none' stroke='currentColor'></path>
+<polygon points='48.000000,240.000000 36.000000,234.399994 36.000000,245.600006' fill='currentColor' transform='rotate(90.000000, 40.000000, 240.000000)'></polygon>
+<path d='M 88,112 L 88,120' fill='none' stroke='currentColor'></path>
+<polygon points='104.000000,112.000000 92.000000,106.400002 92.000000,117.599998' fill='currentColor' transform='rotate(90.000000, 88.000000, 112.000000)'></polygon>
+<polygon points='96.000000,240.000000 84.000000,234.399994 84.000000,245.600006' fill='currentColor' transform='rotate(90.000000, 88.000000, 240.000000)'></polygon>
+<polygon points='144.000000,240.000000 132.000000,234.399994 132.000000,245.600006' fill='currentColor' transform='rotate(90.000000, 136.000000, 240.000000)'></polygon>
+<polygon points='192.000000,240.000000 180.000000,234.399994 180.000000,245.600006' fill='currentColor' transform='rotate(90.000000, 184.000000, 240.000000)'></polygon>
+<polygon points='240.000000,240.000000 228.000000,234.399994 228.000000,245.600006' fill='currentColor' transform='rotate(90.000000, 232.000000, 240.000000)'></polygon>
+<text text-anchor='middle' x='16' y='260' fill='currentColor' style='font-size:1em'>S</text>
+<text text-anchor='middle' x='24' y='260' fill='currentColor' style='font-size:1em'>y</text>
+<text text-anchor='middle' x='32' y='36' fill='currentColor' style='font-size:1em'>H</text>
+<text text-anchor='middle' x='32' y='148' fill='currentColor' style='font-size:1em'>H</text>
+<text text-anchor='middle' x='32' y='260' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='40' y='36' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='40' y='148' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='40' y='260' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='48' y='36' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='48' y='148' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='48' y='260' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='56' y='20' fill='currentColor' style='font-size:1em'>A</text>
+<text text-anchor='middle' x='56' y='36' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='56' y='148' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='56' y='260' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='64' y='20' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='64' y='36' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='64' y='148' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='72' y='20' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='72' y='36' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='72' y='148' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='72' y='260' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='80' y='20' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='80' y='36' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='80' y='148' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='80' y='164' fill='currentColor' style='font-size:1em'>G</text>
+<text text-anchor='middle' x='80' y='260' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='88' y='20' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='88' y='36' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='88' y='148' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='88' y='164' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='88' y='260' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='96' y='20' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='96' y='260' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='104' y='20' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='104' y='36' fill='currentColor' style='font-size:1em'>(</text>
+<text text-anchor='middle' x='104' y='84' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='104' y='100' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='104' y='148' fill='currentColor' style='font-size:1em'>D</text>
+<text text-anchor='middle' x='104' y='260' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='112' y='36' fill='currentColor' style='font-size:1em'>K</text>
+<text text-anchor='middle' x='112' y='84' fill='currentColor' style='font-size:1em'>D</text>
+<text text-anchor='middle' x='112' y='100' fill='currentColor' style='font-size:1em'>u</text>
+<text text-anchor='middle' x='112' y='148' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='112' y='260' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='120' y='20' fill='currentColor' style='font-size:1em'>A</text>
+<text text-anchor='middle' x='120' y='36' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='120' y='84' fill='currentColor' style='font-size:1em'>N</text>
+<text text-anchor='middle' x='120' y='100' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='120' y='148' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='120' y='260' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='128' y='20' fill='currentColor' style='font-size:1em'>p</text>
+<text text-anchor='middle' x='128' y='36' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='128' y='84' fill='currentColor' style='font-size:1em'>S</text>
+<text text-anchor='middle' x='128' y='100' fill='currentColor' style='font-size:1em'>h</text>
+<text text-anchor='middle' x='128' y='148' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='136' y='20' fill='currentColor' style='font-size:1em'>p</text>
+<text text-anchor='middle' x='136' y='36' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='136' y='100' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='136' y='148' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='136' y='260' fill='currentColor' style='font-size:1em'>N</text>
+<text text-anchor='middle' x='144' y='36' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='144' y='84' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='144' y='100' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='144' y='148' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='144' y='260' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='152' y='36' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='152' y='84' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='152' y='100' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='152' y='260' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='160' y='36' fill='currentColor' style='font-size:1em'>)</text>
+<text text-anchor='middle' x='160' y='84' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='160' y='100' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='160' y='260' fill='currentColor' style='font-size:1em'>w</text>
+<text text-anchor='middle' x='168' y='84' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='168' y='100' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='168' y='260' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='176' y='84' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='176' y='100' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='176' y='260' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='184' y='84' fill='currentColor' style='font-size:1em'>v</text>
+<text text-anchor='middle' x='184' y='100' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='184' y='260' fill='currentColor' style='font-size:1em'>k</text>
+<text text-anchor='middle' x='192' y='84' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='192' y='100' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='200' y='84' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='200' y='100' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='200' y='260' fill='currentColor' style='font-size:1em'>S</text>
+<text text-anchor='middle' x='208' y='84' fill='currentColor' style='font-size:1em'>y</text>
+<text text-anchor='middle' x='208' y='260' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='216' y='100' fill='currentColor' style='font-size:1em'>p</text>
+<text text-anchor='middle' x='216' y='260' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='224' y='100' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='224' y='260' fill='currentColor' style='font-size:1em'>u</text>
+<text text-anchor='middle' x='232' y='100' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='232' y='260' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='240' y='100' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='240' y='260' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='248' y='100' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='248' y='260' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='256' y='100' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='256' y='260' fill='currentColor' style='font-size:1em'>y</text>
+<text text-anchor='middle' x='264' y='100' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='272' y='100' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='272' y='260' fill='currentColor' style='font-size:1em'>P</text>
+<text text-anchor='middle' x='280' y='260' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='288' y='260' fill='currentColor' style='font-size:1em'>w</text>
+<text text-anchor='middle' x='296' y='260' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='304' y='260' fill='currentColor' style='font-size:1em'>r</text>
+</g>
+
+		</svg>
+	
+</div>
+<p>The Android application is the client. The daemon owns platform-specific work. The client only needs to speak the Heimdall protocol.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Android
+</span></span><span style="display:flex;"><span>   |
+</span></span><span style="display:flex;"><span>   | mDNS
+</span></span><span style="display:flex;"><span>   v
+</span></span><span style="display:flex;"><span>Heimdall Daemon
+</span></span><span style="display:flex;"><span>   |
+</span></span><span style="display:flex;"><span>   +-- System
+</span></span><span style="display:flex;"><span>   +-- Processes
+</span></span><span style="display:flex;"><span>   +-- Network
+</span></span><span style="display:flex;"><span>   +-- Security
+</span></span></code></pre></div><h2 id="implementation">Implementation</h2>
+<h3 id="service-discovery">Service discovery</h3>
+<p>The daemon advertises itself on the local network. The phone searches for agents instead of asking the user for an IP address.</p>
+
+
+
+<div class="goat svg-container ">
+	
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			font-family="Menlo,Lucida Console,monospace"
+			
+				viewBox="0 0 384 281"
+			>
+			<g transform='translate(8,16)'>
+<path d='M 144,0 L 280,0' fill='none' stroke='currentColor'></path>
+<path d='M 144,32 L 208,32' fill='none' stroke='currentColor'></path>
+<path d='M 208,32 L 280,32' fill='none' stroke='currentColor'></path>
+<path d='M 144,96 L 280,96' fill='none' stroke='currentColor'></path>
+<path d='M 144,128 L 208,128' fill='none' stroke='currentColor'></path>
+<path d='M 208,128 L 280,128' fill='none' stroke='currentColor'></path>
+<path d='M 104,160 L 208,160' fill='none' stroke='currentColor'></path>
+<path d='M 208,160 L 312,160' fill='none' stroke='currentColor'></path>
+<path d='M 64,208 L 144,208' fill='none' stroke='currentColor'></path>
+<path d='M 168,208 L 248,208' fill='none' stroke='currentColor'></path>
+<path d='M 272,208 L 368,208' fill='none' stroke='currentColor'></path>
+<path d='M 64,256 L 144,256' fill='none' stroke='currentColor'></path>
+<path d='M 168,256 L 248,256' fill='none' stroke='currentColor'></path>
+<path d='M 272,256 L 368,256' fill='none' stroke='currentColor'></path>
+<path d='M 64,208 L 64,256' fill='none' stroke='currentColor'></path>
+<path d='M 104,160 L 104,192' fill='none' stroke='currentColor'></path>
+<path d='M 144,0 L 144,32' fill='none' stroke='currentColor'></path>
+<path d='M 144,96 L 144,128' fill='none' stroke='currentColor'></path>
+<path d='M 144,208 L 144,256' fill='none' stroke='currentColor'></path>
+<path d='M 168,208 L 168,256' fill='none' stroke='currentColor'></path>
+<path d='M 208,32 L 208,80' fill='none' stroke='currentColor'></path>
+<path d='M 208,128 L 208,160' fill='none' stroke='currentColor'></path>
+<path d='M 208,160 L 208,192' fill='none' stroke='currentColor'></path>
+<path d='M 248,208 L 248,256' fill='none' stroke='currentColor'></path>
+<path d='M 272,208 L 272,256' fill='none' stroke='currentColor'></path>
+<path d='M 280,0 L 280,32' fill='none' stroke='currentColor'></path>
+<path d='M 280,96 L 280,128' fill='none' stroke='currentColor'></path>
+<path d='M 312,160 L 312,192' fill='none' stroke='currentColor'></path>
+<path d='M 368,208 L 368,256' fill='none' stroke='currentColor'></path>
+<path d='M 104,192 L 104,200' fill='none' stroke='currentColor'></path>
+<polygon points='120.000000,192.000000 108.000000,186.399994 108.000000,197.600006' fill='currentColor' transform='rotate(90.000000, 104.000000, 192.000000)'></polygon>
+<path d='M 208,80 L 208,88' fill='none' stroke='currentColor'></path>
+<polygon points='224.000000,80.000000 212.000000,74.400002 212.000000,85.599998' fill='currentColor' transform='rotate(90.000000, 208.000000, 80.000000)'></polygon>
+<path d='M 208,192 L 208,200' fill='none' stroke='currentColor'></path>
+<polygon points='224.000000,192.000000 212.000000,186.399994 212.000000,197.600006' fill='currentColor' transform='rotate(90.000000, 208.000000, 192.000000)'></polygon>
+<path d='M 312,192 L 312,200' fill='none' stroke='currentColor'></path>
+<polygon points='328.000000,192.000000 316.000000,186.399994 316.000000,197.600006' fill='currentColor' transform='rotate(90.000000, 312.000000, 192.000000)'></polygon>
+<text text-anchor='middle' x='80' y='228' fill='currentColor' style='font-size:1em'>H</text>
+<text text-anchor='middle' x='80' y='244' fill='currentColor' style='font-size:1em'>+</text>
+<text text-anchor='middle' x='88' y='228' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='88' y='244' fill='currentColor' style='font-size:1em'>D</text>
+<text text-anchor='middle' x='96' y='228' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='96' y='244' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='104' y='228' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='104' y='244' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='112' y='244' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='120' y='228' fill='currentColor' style='font-size:1em'>A</text>
+<text text-anchor='middle' x='120' y='244' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='128' y='244' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='160' y='116' fill='currentColor' style='font-size:1em'>L</text>
+<text text-anchor='middle' x='168' y='116' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='176' y='116' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='184' y='20' fill='currentColor' style='font-size:1em'>A</text>
+<text text-anchor='middle' x='184' y='116' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='184' y='228' fill='currentColor' style='font-size:1em'>H</text>
+<text text-anchor='middle' x='184' y='244' fill='currentColor' style='font-size:1em'>+</text>
+<text text-anchor='middle' x='192' y='20' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='192' y='116' fill='currentColor' style='font-size:1em'>l</text>
+<text text-anchor='middle' x='192' y='228' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='192' y='244' fill='currentColor' style='font-size:1em'>D</text>
+<text text-anchor='middle' x='200' y='20' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='200' y='228' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='200' y='244' fill='currentColor' style='font-size:1em'>a</text>
+<text text-anchor='middle' x='208' y='20' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='208' y='116' fill='currentColor' style='font-size:1em'>N</text>
+<text text-anchor='middle' x='208' y='228' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='208' y='244' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='216' y='20' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='216' y='116' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='216' y='244' fill='currentColor' style='font-size:1em'>m</text>
+<text text-anchor='middle' x='224' y='20' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='224' y='68' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='224' y='116' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='224' y='228' fill='currentColor' style='font-size:1em'>B</text>
+<text text-anchor='middle' x='224' y='244' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='232' y='20' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='232' y='68' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='232' y='116' fill='currentColor' style='font-size:1em'>w</text>
+<text text-anchor='middle' x='232' y='244' fill='currentColor' style='font-size:1em'>n</text>
+<text text-anchor='middle' x='240' y='68' fill='currentColor' style='font-size:1em'>s</text>
+<text text-anchor='middle' x='240' y='116' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='248' y='68' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='248' y='116' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='256' y='68' fill='currentColor' style='font-size:1em'>o</text>
+<text text-anchor='middle' x='256' y='116' fill='currentColor' style='font-size:1em'>k</text>
+<text text-anchor='middle' x='264' y='68' fill='currentColor' style='font-size:1em'>v</text>
+<text text-anchor='middle' x='272' y='68' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='280' y='68' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='288' y='68' fill='currentColor' style='font-size:1em'>y</text>
+<text text-anchor='middle' x='296' y='244' fill='currentColor' style='font-size:1em'>d</text>
+<text text-anchor='middle' x='304' y='68' fill='currentColor' style='font-size:1em'>q</text>
+<text text-anchor='middle' x='304' y='228' fill='currentColor' style='font-size:1em'>O</text>
+<text text-anchor='middle' x='304' y='244' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='312' y='68' fill='currentColor' style='font-size:1em'>u</text>
+<text text-anchor='middle' x='312' y='228' fill='currentColor' style='font-size:1em'>t</text>
+<text text-anchor='middle' x='312' y='244' fill='currentColor' style='font-size:1em'>v</text>
+<text text-anchor='middle' x='320' y='68' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='320' y='228' fill='currentColor' style='font-size:1em'>h</text>
+<text text-anchor='middle' x='320' y='244' fill='currentColor' style='font-size:1em'>i</text>
+<text text-anchor='middle' x='328' y='68' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='328' y='228' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='328' y='244' fill='currentColor' style='font-size:1em'>c</text>
+<text text-anchor='middle' x='336' y='68' fill='currentColor' style='font-size:1em'>y</text>
+<text text-anchor='middle' x='336' y='228' fill='currentColor' style='font-size:1em'>r</text>
+<text text-anchor='middle' x='336' y='244' fill='currentColor' style='font-size:1em'>e</text>
+<text text-anchor='middle' x='344' y='244' fill='currentColor' style='font-size:1em'>s</text>
+</g>
+
+		</svg>
+	
+</div>
+<p>Discovery answers: <em>which agents are available?</em><br>
+The control protocol answers: <em>what can I do with this host?</em></p>
+<p>Those responsibilities stay separate so either side can evolve independently.</p>
+<h3 id="command-based-protocol">Command-based protocol</h3>
+<p>Control uses request/response messages rather than a large REST surface:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;request&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;req_123&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;system.info&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;params&#34;</span>: {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Capabilities are grouped by domain:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>system.info / system.stats
+</span></span><span style="display:flex;"><span>process.list / process.inspect / process.kill
+</span></span><span style="display:flex;"><span>power.shutdown / power.reboot / power.sleep / power.lock
+</span></span></code></pre></div><h3 id="events">Events</h3>
+<p>Live metrics should not require polling. The daemon can publish events such as <code>system.stats</code> over a bidirectional connection so the phone can show a live dashboard.</p>
+<h3 id="security">Security</h3>
+<p>Remote management needs more than an open LAN socket. The intended model is pairing with cryptographic identity, then authenticated and encrypted control sessions. Discovery stays lightweight; authentication happens when establishing the control connection.</p>
+<h2 id="engineering-decisions">Engineering Decisions</h2>
+<ul>
+<li><strong>Daemon in Go</strong> for networking, concurrency, and a deployable Linux service.</li>
+<li><strong>Client in Kotlin/Android</strong> for a native management UI.</li>
+<li><strong>Capability-oriented API</strong> so the phone stays platform-agnostic.</li>
+<li><strong>mDNS for discovery</strong> to avoid manual addressing on DHCP networks.</li>
+<li><strong>Pairing before privilege</strong> so management actions require established trust.</li>
+</ul>
+<h2 id="challenges">Challenges</h2>
+<ul>
+<li>Keeping discovery simple while keeping control secure</li>
+<li>Designing a protocol that supports concurrent requests and streamed events</li>
+<li>Translating one command set across platform-specific implementations</li>
+<li>Shipping a daemon that fits naturally on Linux (including systemd) without becoming a remote-desktop stack</li>
+</ul>
+<h2 id="technology">Technology</h2>
+<table>
+	<thead>
+			<tr>
+					<th>Layer</th>
+					<th>Choices</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Client</td>
+					<td>Android, Kotlin</td>
+			</tr>
+			<tr>
+					<td>Agent</td>
+					<td>Go, Linux, systemd</td>
+			</tr>
+			<tr>
+					<td>Network</td>
+					<td>mDNS, UDP, authenticated control channel</td>
+			</tr>
+			<tr>
+					<td>Concerns</td>
+					<td>service discovery, protocol design, authentication, process/system management</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="results">Results</h2>
+<p>Heimdall is in active development. The architecture is organized around a stable foundation: discover a host, establish trust, then perform a small set of useful management operations. Additional capabilities can layer on without rewriting the client/daemon boundary.</p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/gabriel-kimutai" target="_blank" rel="external noopener noreferrer nofollow">GitHub</a></li>
+<li><a href="http://localhost:1313/en/work/">Work</a></li>
+</ul>
+
+        </section>
+    </article>
+        <div id="exclude" role="presentation">
+            <!-- excluded last block frome some RSS reader and browser reader mode -->
+            
+    <div class="pagewidth">
+        <hr />
+        
+    </div>
+        <!-- main/footer.html -->
+    <hr class="hide">
+    <footer id="main-footer">
+            <div id="unified-footer"><p id="license">© 2026 Gabriel Kimutai</p>
+                    <!-- menu.html -->
+    <nav id="menu-footer" class="has-aria-label-top" aria-label="Let&#39;s keep in touch!">
+        <ul role="presentation">
+            <li><a href="https://github.com/gabriel-kimutai" aria-label="GitHub">
+                    <i class="icon">github</i>
+                    <span class="t" role="tooltip">GitHub</span>
+                </a>
+            </li>
+            <li><a href="https://www.linkedin.com/in/gabriel-kimutai-72b958235" aria-label="LinkedIn">
+                    <i class="icon">linkedin</i>
+                    <span class="t" role="tooltip">LinkedIn</span>
+                </a>
+            </li>
+            <li><a href="mailto:contact@gabrielkimutai.com" aria-label="Email">
+                    <i class="icon">email</i>
+                    <span class="t" role="tooltip">Email</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+            </div>
+    </footer>
+        </div>
+    </main>
+    <!-- footer.html -->
+<footer id="body-footer" class="pagewidth">
+    <div id="background-footer" class="background hide" role="presentation" aria-hidden="true"></div>
+    <div id="focusMode"></div>
+    <!-- a11y.html --><details id="has-a11y" class="presentation js-details hide" name="on-deck" aria-haspopup="true" aria-labelledby="has-a11y-summary"
+    data-i18n-accessibility="Accessibility"
+    data-i18n-optimizeSR="Screen Reader Optimization"
+    data-i18n-optimizeSRdesc="Optimize display and resources for screen reader users who navigate with a pointer device."
+    data-i18n-colorSettings="Color Settings"
+    data-i18n-darkMode="Dark Mode"
+    data-i18n-light="Light"
+    data-i18n-dark="Dark"
+    data-i18n-contrast="Contrast"
+    data-i18n-lessContrast="Low"
+    data-i18n-moreContrast="High"
+    data-i18n-defaultContrast="Default"
+    data-i18n-colorPalette="Color Palette"
+    data-i18n-defaultColor="Default"
+    data-i18n-deuteranopia="Deuteranopia"
+    data-i18n-protanopia="Protanopia"
+    data-i18n-tritanopia="Tritanopia"
+    data-i18n-monochrome="Monochrome"
+    data-i18n-fontSize="Font Size"
+    data-i18n-baselineStretch="Baseline Stretch"
+    data-i18n-OpenDyslexic="Use OpenDyslexic Font"
+    data-i18n-menuControls="Accessibility Menu Controls"
+    data-i18n-save="Save"
+    data-i18n-reset="Reset"
+    data-i18n-close="Close"
+    data-i18n-bionRead="BionRead Mode"
+    data-i18n-focusMode="Focus Mode"
+    data-i18n-noLocalStorage="LocalStorage is not available in your browser. Settings won&#39;t be saved.">
+</details>
+
+
+    <div id="useBionRead" class="sri"></div>
+    <!-- [top] bypass block -->
+    <nav aria-label="Bypass">
+        <a id="to-top" class="srm" href="#top" title="To Content Top" accesskey="c" aria-keyshortcuts="c" aria-label="To Content Top">
+            <span class="t srt">To Content Top</span>
+            <kbd class="key" aria-hidden="true" data-key="c"></kbd>
+        </a>
+    </nav>
+</footer>
+    
+    <!-- [post] single.html -->
+    <div id="bionReadSnapshot" hidden></div>
+    <!-- [background] baseof.html -->
+    <div id="background-body" role="presentation" aria-hidden="true"></div>
+</body>
+</html>
