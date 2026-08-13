@@ -1,0 +1,20 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="Not found"
+  description="This page does not exist."
+  noindex={true}
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="meta">404</p>
+      <h1>Page not found</h1>
+      <p class="lead muted">That URL is not part of this site.</p>
+      <p style="margin-top: 1.5rem;">
+        <a class="more-link" href="/">Return home →</a>
+      </p>
+    </div>
+  </section>
+</PageLayout>

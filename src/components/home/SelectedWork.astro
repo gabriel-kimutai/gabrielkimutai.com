@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SectionLabel from "../SectionLabel.astro";
+import ProjectFeatured from "../ProjectFeatured.astro";
+import ProjectPreview from "../ProjectPreview.astro";
+
+interface Props {
+  featured: CollectionEntry<"projects">;
+  others: CollectionEntry<"projects">[];
+}
+
+const { featured, others } = Astro.props;
+---
+
+<section class="section" id="work" aria-labelledby="work-heading">
+  <div class="wrap">
+    <div class="section-head">
+      <SectionLabel index="01" label="Work" />
+      <div>
+        <h2 id="work-heading">Selected work</h2>
+        <p class="muted">
+          Projects are the evidence. Heimdall is the deepest case study; the
+          others are shorter notes on systems I have actually built.
+        </p>
+      </div>
+    </div>
+    <ProjectFeatured project={featured} />
+    <div class="project-list">
+      {
+        others.map((project, i) => (
+          <ProjectPreview
+            project={project}
+            index={String(i + 2).padStart(2, "0")}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

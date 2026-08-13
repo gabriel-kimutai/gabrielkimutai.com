@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Astro
+dist/
+.astro/
+
+# Hugo (legacy, keep until cutover)
+resources/_gen/
+.hugo_build.lock
+.cache/
+
+# OS / editor
+.DS_Store
+*.swp
+*.tmp
+.idea/
+.vscode/

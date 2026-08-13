@@ -1,0 +1,14 @@
+---
+interface Props {
+  categories?: string[];
+  technologies?: string[];
+  year?: number | string;
+}
+
+const { categories = [], technologies = [], year } = Astro.props;
+const items = [...categories, ...technologies, year].filter(Boolean);
+---
+
+<ul class="tech-meta">
+  {items.map((item) => <li>{item}</li>)}
+</ul>

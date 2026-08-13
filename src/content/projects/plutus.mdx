@@ -1,0 +1,80 @@
+---
+title: Plutus
+description: An Android application for tracking and reconciling financial transactions using notification capture and local processing.
+featured: false
+date: 2026-06-01
+weight: 3
+technologies:
+  - Kotlin
+  - Jetpack Compose
+  - Room
+  - WorkManager
+  - Koin
+  - Local ML / embeddings
+categories:
+  - Mobile
+problem: Reconcile personal financial activity on-device from transaction notifications without sending private data to a remote backend.
+github: "https://github.com/gabriel-kimutai"
+---
+
+import PlutusArchitecture from "../../components/diagrams/PlutusArchitecture.astro";
+
+## Overview
+
+Plutus is an Android application for tracking and reconciling financial transactions. It focuses on transaction parsing, local processing, and automation rather than a cloud-hosted finance product.
+
+The design center is on-device: notifications and local storage drive the workflow so sensitive financial detail stays under the user's control.
+
+This page discusses engineering decisions. It does not include private financial samples or confidential implementation details.
+
+<PlutusArchitecture />
+
+## Problem
+
+Transaction records often arrive as noisy notification text. Turning that into structured history requires:
+
+- reliable parsing of heterogeneous message formats
+- durable local storage and reconciliation
+- background work that stays correct when the app is not open
+- categorization that does not depend on shipping raw statements to a server
+
+## Architecture
+
+Notifications are an input stream. A parsing pipeline normalizes them into a schema. Room holds the local data model. Jetpack Compose renders it. WorkManager runs deferred and periodic reconciliation.
+
+Local embeddings support on-device categorization and similarity-style matching without remote inference.
+
+## Implementation
+
+- **Kotlin + Jetpack Compose** for the application UI
+- **Room** for structured local persistence
+- **WorkManager** for deferred and periodic reconciliation tasks
+- **Koin** for dependency injection
+- **Local ML / embeddings** to support on-device categorization without remote inference
+
+The engineering emphasis is data modeling and parsing reliability, not charts.
+
+## Engineering decisions
+
+- Prefer local processing for privacy-sensitive financial content
+- Treat notifications as an input stream that must be normalized into a schema
+- Keep background automation explicit and inspectable via WorkManager
+- Use embeddings locally where fuzzy matching helps reconciliation
+
+## Challenges
+
+- Notification text is inconsistent across senders
+- Reconciliation must tolerate duplicates, partial updates, and delayed messages
+- On-device ML has to stay lightweight enough for ordinary phones
+
+## Results
+
+Plutus demonstrates mobile systems work beyond CRUD screens: ingestion, parsing, local data modeling, and automated reconciliation on Android.
+
+| Area                   | Tools                   |
+| ---------------------- | ----------------------- |
+| UI                     | Kotlin, Jetpack Compose |
+| Persistence            | Room                    |
+| Automation             | WorkManager             |
+| Architecture           | Koin                    |
+| On-device intelligence | Local ML / embeddings   |

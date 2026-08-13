@@ -1,0 +1,13 @@
+---
+interface Props {
+  caption?: string;
+  bleed?: boolean;
+}
+
+const { caption, bleed = false } = Astro.props;
+---
+
+<figure class:list={["diagram", { "diagram--bleed": bleed }]}>
+  <slot />
+  {caption && <figcaption class="diagram__caption">{caption}</figcaption>}
+</figure>

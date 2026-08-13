@@ -1,0 +1,27 @@
+---
+import { site } from "../../site";
+import SectionLabel from "../SectionLabel.astro";
+import HeroDiagram from "../HeroDiagram.astro";
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__layout">
+    <div>
+      <div class="hero__meta">
+        <SectionLabel index="00" label="Intro" />
+      </div>
+      <h1 id="hero-title">{site.name}</h1>
+      <p class="hero__role">{site.role}</p>
+      <p class="hero__lede">
+        I build software across backend systems, networking, mobile, and
+        infrastructure.
+      </p>
+      <ul class="hero__links">
+        <li><a href="#work">Selected work</a></li>
+        <li><a href={site.github} rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="/writing/">Writing</a></li>
+      </ul>
+    </div>
+    <HeroDiagram />
+  </div>
+</section>

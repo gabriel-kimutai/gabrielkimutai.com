@@ -1,0 +1,34 @@
+---
+import TechnicalDiagram from "../TechnicalDiagram.astro";
+---
+
+<TechnicalDiagram
+  caption="Fig. 05 — Pairing establishes identity before privilege"
+>
+  <svg viewBox="0 0 640 200" role="img" aria-labelledby="heimdall-sec-title">
+    <title id="heimdall-sec-title">
+      Phone and computer exchange a pairing request, authenticate, and store a
+      paired identity for later encrypted control sessions.
+    </title>
+    <g fill="none" stroke="#c97a3a" stroke-width="1.2">
+      <rect x="36" y="64" width="130" height="56"></rect>
+      <rect x="474" y="64" width="130" height="56"></rect>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="11"
+      fill="#ece6d9"
+    >
+      <text x="72" y="96">PHONE</text>
+      <text x="504" y="96">COMPUTER</text>
+      <text x="200" y="48" fill="#c97a3a">pairing request →</text>
+      <text x="200" y="92" fill="#c97a3a">← authentication</text>
+      <text x="200" y="136" fill="#c97a3a">paired identity →</text>
+    </g>
+    <g stroke="#c97a3a" fill="none" stroke-width="1">
+      <path d="M166 80 H474"></path>
+      <path d="M474 92 H166"></path>
+      <path d="M166 112 H474"></path>
+    </g>
+  </svg>
+</TechnicalDiagram>

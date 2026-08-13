@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PageLayout from "./PageLayout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import ProjectMeta from "../components/ProjectMeta.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const year = project.data.date.getFullYear();
+---
+
+<PageLayout
+  title={project.data.title}
+  description={project.data.description}
+  ogType="article"
+>
+  <article>
+    <header class="page-hero">
+      <div class="wrap page-hero__grid">
+        <SectionLabel index="01" label="Work" />
+        <div>
+          <p class="project-index">
+            {String(project.data.weight).padStart(2, "0")}
+          </p>
+          <h1>{project.data.title}</h1>
+          <p class="lead muted">{project.data.description}</p>
+          <ProjectMeta categories={project.data.categories} year={year} />
+        </div>
+      </div>
+    </header>
+    <div class="wrap article-body">
+      <aside class="article-aside">
+        <dl>
+          <dt>Problem</dt>
+          <dd>{project.data.problem}</dd>
+          <dt>Stack</dt>
+          <dd>{project.data.technologies.join(" · ")}</dd>
+          {
+            project.data.github && (
+              <>
+                <dt>Source</dt>
+                <dd>
+                  <a href={project.data.github} rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </dd>
+              </>
+            )
+          }
+        </dl>
+      </aside>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</PageLayout>

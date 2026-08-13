@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ProjectMeta from "./ProjectMeta.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  index: string;
+}
+
+const { project, index } = Astro.props;
+---
+
+<a class="project-row" href={`/work/${project.id}/`}>
+  <span class="project-index">{index}</span>
+  <h3>{project.data.title}</h3>
+  <p>{project.data.description}</p>
+  <ProjectMeta
+    categories={project.data.categories}
+    year={project.data.date.getFullYear()}
+  />
+</a>

@@ -1,0 +1,8 @@
+dist
+.astro
+node_modules
+public
+themes
+resources
+package-lock.json
+static/og-default.jpg

@@ -1,0 +1,37 @@
+---
+import TechnicalDiagram from "../TechnicalDiagram.astro";
+---
+
+<TechnicalDiagram
+  caption="Fig. 06 — Marketplace APIs, inventory, and realtime messaging"
+>
+  <svg viewBox="0 0 720 240" role="img" aria-labelledby="pakua-arch-title">
+    <title id="pakua-arch-title">
+      React and TypeScript UI talks to Go APIs. The API layer uses PostgreSQL
+      with JSONB for listings and WebSockets for customer-to-customer messaging.
+    </title>
+    <g fill="none" stroke="#c97a3a" stroke-width="1.2">
+      <rect x="24" y="84" width="160" height="64"></rect>
+      <rect x="268" y="84" width="160" height="64"></rect>
+      <rect x="512" y="24" width="180" height="56"></rect>
+      <rect x="512" y="152" width="180" height="56"></rect>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="11"
+      fill="#ece6d9"
+    >
+      <text x="44" y="112">REACT / TS UI</text>
+      <text x="300" y="112">GO APIS</text>
+      <text x="532" y="48">POSTGRESQL</text>
+      <text x="532" y="64" fill="#8f887b">+ JSONB</text>
+      <text x="532" y="176">WEBSOCKETS</text>
+      <text x="532" y="192" fill="#8f887b">C2C messaging</text>
+    </g>
+    <g stroke="#c97a3a" fill="none" stroke-width="1">
+      <path d="M184 116 H268"></path>
+      <path d="M428 100 H512"></path>
+      <path d="M428 132 V180 H512"></path>
+    </g>
+  </svg>
+</TechnicalDiagram>

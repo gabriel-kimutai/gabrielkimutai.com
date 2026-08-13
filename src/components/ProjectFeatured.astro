@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ProjectMeta from "./ProjectMeta.astro";
+import HeimdallArchitecture from "./diagrams/HeimdallArchitecture.astro";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="featured">
+  <div>
+    <p class="project-index">01</p>
+    <h2>
+      <a href={`/work/${project.id}/`}>{project.data.title}</a>
+    </h2>
+    <p class="featured__summary">{project.data.description}</p>
+    <ProjectMeta
+      categories={project.data.categories}
+      year={project.data.date.getFullYear()}
+    />
+    <a class="more-link" href={`/work/${project.id}/`}>Read case study →</a>
+  </div>
+  <HeimdallArchitecture />
+</article>

@@ -1,0 +1,40 @@
+---
+import { site } from "../../site";
+import SectionLabel from "../SectionLabel.astro";
+---
+
+<section class="section" id="contact" aria-labelledby="contact-heading">
+  <div class="wrap split">
+    <div>
+      <SectionLabel index="06" label="Contact" />
+      <h2 id="contact-heading">Contact</h2>
+    </div>
+    <div>
+      <p class="lead">Email for introductions. GitHub for code.</p>
+      <p class="muted">
+        I am most useful on problems involving backend systems, mobile clients,
+        networking, and the infrastructure around them.
+      </p>
+      <ul class="contact-list">
+        <li>
+          <a href={`mailto:${site.email}`}>
+            <span>Email</span>
+            <span>{site.email}</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.github} rel="noopener noreferrer">
+            <span>GitHub</span>
+            <span>gabriel-kimutai</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.linkedin} rel="noopener noreferrer">
+            <span>LinkedIn</span>
+            <span>gabriel-kimutai</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

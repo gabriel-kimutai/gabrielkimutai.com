@@ -1,0 +1,34 @@
+---
+import TechnicalDiagram from "../TechnicalDiagram.astro";
+---
+
+<TechnicalDiagram caption="Fig. 04 — Request/response plus streamed events">
+  <svg viewBox="0 0 640 220" role="img" aria-labelledby="heimdall-proto-title">
+    <title id="heimdall-proto-title">
+      Bidirectional session: the client sends requests, the daemon returns
+      responses and can publish events such as system.stats.
+    </title>
+    <g fill="none" stroke="#c97a3a" stroke-width="1.2">
+      <rect x="40" y="70" width="150" height="70"></rect>
+      <rect x="450" y="70" width="150" height="70"></rect>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="11"
+      fill="#ece6d9"
+    >
+      <text x="68" y="100">ANDROID</text>
+      <text x="68" y="116" fill="#8f887b">client</text>
+      <text x="482" y="100">DAEMON</text>
+      <text x="482" y="116" fill="#8f887b">host</text>
+      <text x="228" y="52" fill="#c97a3a">request →</text>
+      <text x="228" y="92" fill="#c97a3a">← response</text>
+      <text x="228" y="148" fill="#c97a3a">← event</text>
+    </g>
+    <g stroke="#c97a3a" fill="none" stroke-width="1">
+      <path d="M190 88 H450"></path>
+      <path d="M450 108 H190"></path>
+      <path d="M450 128 H190"></path>
+    </g>
+  </svg>
+</TechnicalDiagram>

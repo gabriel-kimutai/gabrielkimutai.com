@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
+import { plannedWriting } from "../../site";
+
+const published = (await getCollection("writing").catch(() => []))
+  .filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<PageLayout
+  title="Writing"
+  description="Technical writing on systems, networking, and production engineering. Articles appear here as they are published."
+>
+  <section class="page-hero">
+    <div class="wrap page-hero__grid">
+      <SectionLabel index="04" label="Writing" />
+      <div>
+        <h1>Writing</h1>
+        <p class="lead muted">
+          An engineering notebook. Published pieces will be listed first.
+          Planned topics are not articles yet.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section--flush">
+    <div class="wrap">
+      {
+        published.length > 0 && (
+          <div class="notebook" style="margin-bottom: 3rem;">
+            {published.map((entry) => (
+              <a class="notebook-row" href={`/writing/${entry.id}/`}>
+                <span class="meta">
+                  {entry.data.date.toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                </span>
+                <span>{entry.data.title}</span>
+                <span class="more-link">Read →</span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+
+      <p class="meta" style="margin-bottom: 1rem;">Planned</p>
+      <div class="notebook">
+        {
+          plannedWriting.map((topic) => (
+            <div class="notebook-row notebook-row--planned">
+              <span class="meta notebook-row__status">Unpublished</span>
+              <span>{topic}</span>
+              <span class="meta">—</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="muted" style="margin-top: 2rem; max-width: 36rem;">
+        Until a first note is published, the deepest technical write-up on this
+        site is the
+        <a href="/work/heimdall/">Heimdall case study</a>.
+      </p>
+    </div>
+  </section>
+</PageLayout>

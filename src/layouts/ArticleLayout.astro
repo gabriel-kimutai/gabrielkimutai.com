@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PageLayout from "./PageLayout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+
+interface Props {
+  entry: CollectionEntry<"writing">;
+}
+
+const { entry } = Astro.props;
+const date = entry.data.date.toLocaleDateString("en-GB", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+
+<PageLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogType="article"
+>
+  <article>
+    <header class="page-hero">
+      <div class="wrap page-hero__grid">
+        <SectionLabel index="04" label="Writing" />
+        <div>
+          <p class="meta">{date}</p>
+          <h1>{entry.data.title}</h1>
+          <p class="lead muted">{entry.data.description}</p>
+        </div>
+      </div>
+    </header>
+    <div class="wrap article-body">
+      <aside class="article-aside">
+        <p>Notes</p>
+        {
+          entry.data.tags.length > 0 && (
+            <dl>
+              <dt>Topics</dt>
+              <dd>{entry.data.tags.join(" · ")}</dd>
+            </dl>
+          )
+        }
+      </aside>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</PageLayout>

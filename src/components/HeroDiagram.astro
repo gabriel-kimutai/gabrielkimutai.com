@@ -1,0 +1,70 @@
+---
+import TechnicalDiagram from "./TechnicalDiagram.astro";
+---
+
+<TechnicalDiagram caption="Fig. 01 — Local discovery and control path">
+  <svg viewBox="0 0 640 360" role="img" aria-labelledby="hero-diagram-title">
+    <title id="hero-diagram-title">
+      Android client discovers a Heimdall daemon over the local network, then
+      manages system, process, and network capabilities.
+    </title>
+    <defs>
+      <marker
+        id="arrow"
+        markerWidth="8"
+        markerHeight="8"
+        refX="6"
+        refY="4"
+        orient="auto"
+      >
+        <path d="M0 0 L8 4 L0 8" fill="none" stroke="#c97a3a" stroke-width="1.2"
+        ></path>
+      </marker>
+    </defs>
+    <g fill="none" stroke="#2a2721" stroke-width="1">
+      <rect x="40.5" y="40.5" width="559" height="279"></rect>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="10"
+      fill="#8f887b"
+    >
+      <text x="52" y="28">COORD / LAN</text>
+      <text x="520" y="28">0,0 →</text>
+    </g>
+    <g fill="none" stroke="#c97a3a" stroke-width="1.2">
+      <rect x="86" y="78" width="140" height="48"></rect>
+      <rect x="250" y="156" width="140" height="56"></rect>
+      <rect x="86" y="268" width="108" height="36"></rect>
+      <rect x="266" y="268" width="108" height="36"></rect>
+      <rect x="446" y="268" width="108" height="36"></rect>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="11"
+      fill="#ece6d9"
+    >
+      <text x="108" y="100">ANDROID</text>
+      <text x="108" y="114" fill="#8f887b">client</text>
+      <text x="276" y="180">HEIMDALL</text>
+      <text x="276" y="194" fill="#8f887b">daemon</text>
+      <text x="114" y="290">system</text>
+      <text x="288" y="290">process</text>
+      <text x="470" y="290">network</text>
+    </g>
+    <g stroke="#c97a3a" stroke-width="1" fill="none" marker-end="url(#arrow)">
+      <path d="M156 126 V156 H250"></path>
+      <path d="M320 212 V268"></path>
+      <path d="M320 240 H140 V268"></path>
+      <path d="M320 240 H500 V268"></path>
+    </g>
+    <g
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="9"
+      fill="#c97a3a"
+    >
+      <text x="168" y="148">mDNS discovery</text>
+      <text x="332" y="148">auth. protocol</text>
+    </g>
+  </svg>
+</TechnicalDiagram>

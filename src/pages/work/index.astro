@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
+import ProjectFeatured from "../../components/ProjectFeatured.astro";
+import ProjectPreview from "../../components/ProjectPreview.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.weight - b.data.weight,
+);
+const featured = projects.find((p) => p.data.featured) ?? projects[0];
+const others = projects.filter((p) => p.id !== featured.id);
+---
+
+<PageLayout
+  title="Work"
+  description="Selected engineering projects — systems, mobile applications, and backend platforms."
+>
+  <section class="page-hero">
+    <div class="wrap page-hero__grid">
+      <SectionLabel index="01" label="Work" />
+      <div>
+        <h1>Work</h1>
+        <p class="lead muted">
+          Each case study focuses on the engineering problem, architecture, and
+          implementation decisions. Heimdall is the primary systems write-up.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section--flush">
+    <div class="wrap">
+      <ProjectFeatured project={featured} />
+      <div class="project-list">
+        {
+          others.map((project, i) => (
+            <ProjectPreview
+              project={project}
+              index={String(i + 2).padStart(2, "0")}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</PageLayout>

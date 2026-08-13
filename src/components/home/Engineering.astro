@@ -1,0 +1,61 @@
+---
+import SectionLabel from "../SectionLabel.astro";
+
+const areas = [
+  {
+    index: "01",
+    title: "Backend",
+    note: "Used in Pakua and event / payment systems for APIs, data modeling, integrations, and service boundaries.",
+    items: ["Go", "PostgreSQL", "APIs", "Event-driven systems"],
+  },
+  {
+    index: "02",
+    title: "Networking",
+    note: "Used in Heimdall for LAN discovery and control, and in marketplace / event systems for realtime C2C and live updates.",
+    items: ["UDP", "mDNS", "WebSockets", "SSE", "Service discovery"],
+  },
+  {
+    index: "03",
+    title: "Mobile",
+    note: "Used in Heimdall as the management client and in Plutus for local transaction workflows.",
+    items: ["Android", "Kotlin", "Jetpack Compose"],
+  },
+  {
+    index: "04",
+    title: "Infrastructure",
+    note: "Used across deployment and operations work — including AWS migration and CI/CD automation — and Linux/systemd packaging for daemon-style services like Heimdall.",
+    items: ["Linux", "Docker", "AWS", "CI/CD", "Observability"],
+  },
+];
+---
+
+<section class="section" id="engineering" aria-labelledby="eng-heading">
+  <div class="wrap">
+    <div class="section-head">
+      <SectionLabel index="02" label="Engineering" />
+      <div>
+        <h2 id="eng-heading">Engineering</h2>
+        <p class="muted">
+          Technologies matter when they are attached to systems. This is how the
+          stack maps to actual work — not a scorecard.
+        </p>
+      </div>
+    </div>
+    <div class="eng-grid">
+      {
+        areas.map((area) => (
+          <article class="eng-item">
+            <p class="project-index">{area.index}</p>
+            <h3>{area.title}</h3>
+            <ul>
+              {area.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <p>{area.note}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

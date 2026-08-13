@@ -1,0 +1,76 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import { site } from "../site";
+---
+
+<PageLayout
+  title="About"
+  description="Gabriel Kimutai — software developer and engineer working across backend systems, mobile, and infrastructure."
+>
+  <section class="page-hero">
+    <div class="wrap page-hero__grid">
+      <SectionLabel index="05" label="About" />
+      <div>
+        <h1>About</h1>
+        <p class="lead">
+          I am a software developer / engineer. I build backend systems, Android
+          applications, and the infrastructure around them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <p class="meta">Approach</p>
+      <div class="prose">
+        <p>
+          Day to day that means Go and API work, React/TypeScript where a web
+          client is needed, Android/Kotlin for mobile systems, and Linux/cloud
+          tooling around delivery. I am particularly interested in networking
+          and distributed systems — service discovery, realtime channels, and
+          clear service boundaries.
+        </p>
+        <p>
+          I care about software with a shape you can explain: explicit
+          interfaces, reliable APIs, and systems you can observe when something
+          breaks.
+        </p>
+        <h2>What I like to build</h2>
+        <ul>
+          <li>Backend services and API design</li>
+          <li>Android systems and local-first mobile workflows</li>
+          <li>Networking, discovery, and realtime communication</li>
+          <li>Developer infrastructure: Docker, Linux, CI/CD, AWS</li>
+        </ul>
+        <h2>How I work</h2>
+        <ul>
+          <li>Prefer simple systems over unnecessary abstraction</li>
+          <li>Keep interfaces explicit</li>
+          <li>Design APIs for reliability, not novelty</li>
+          <li>Make services observable</li>
+          <li>Treat security as part of the design</li>
+          <li>Automate the paths that otherwise rot</li>
+        </ul>
+        <p>
+          The goal is software that can be operated, debugged, and extended —
+          not demos that only work on one laptop.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap split">
+      <p class="meta">Elsewhere</p>
+      <ul class="contact-list">
+        <li><a href="/work/">Work</a></li>
+        <li><a href="/writing/">Writing</a></li>
+        <li><a href={site.github} rel="noopener noreferrer">GitHub</a></li>
+        <li><a href={site.linkedin} rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </div>
+  </section>
+</PageLayout>

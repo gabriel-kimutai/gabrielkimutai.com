@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import Hero from "../components/home/Hero.astro";
+import SelectedWork from "../components/home/SelectedWork.astro";
+import Engineering from "../components/home/Engineering.astro";
+import Experience from "../components/home/Experience.astro";
+import Writing from "../components/home/Writing.astro";
+import About from "../components/home/About.astro";
+import Contact from "../components/home/Contact.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.weight - b.data.weight,
+);
+const featured = projects.find((p) => p.data.featured) ?? projects[0];
+const others = projects.filter((p) => p.id !== featured.id);
+---
+
+<PageLayout>
+  <Hero />
+  <SelectedWork featured={featured} others={others} />
+  <Engineering />
+  <Experience />
+  <Writing />
+  <About />
+  <Contact />
+</PageLayout>

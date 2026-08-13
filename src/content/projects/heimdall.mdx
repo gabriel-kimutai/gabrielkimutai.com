@@ -1,0 +1,234 @@
+---
+title: Heimdall
+description: Computer management over a local network. An Android client discovers a Linux daemon, then issues authenticated management commands.
+featured: true
+date: 2026-08-13
+weight: 1
+technologies:
+  - Go
+  - Android
+  - Kotlin
+  - mDNS
+  - UDP
+  - Linux
+  - systemd
+categories:
+  - Systems
+  - Networking
+problem: Discover and manage computers on a LAN without manual IP configuration or a full remote-desktop stack.
+github: "https://github.com/gabriel-kimutai"
+---
+
+import HeimdallArchitecture from "../../components/diagrams/HeimdallArchitecture.astro";
+import HeimdallDiscovery from "../../components/diagrams/HeimdallDiscovery.astro";
+import HeimdallProtocol from "../../components/diagrams/HeimdallProtocol.astro";
+import HeimdallSecurity from "../../components/diagrams/HeimdallSecurity.astro";
+
+## Overview
+
+Heimdall is a systems project: a phone client and a computer daemon connected by a purpose-built protocol.
+
+Install a small daemon on a computer, open Heimdall on Android, discover the machine on the LAN, pair once, then manage the host from the phone.
+
+It is not a traditional remote desktop application. The goal is lightweight computer management — process control, system stats, power actions — with a native Android interface and a small agent on the host.
+
+The Android application should not need to know how Linux performs a particular operation. It only needs to understand the Heimdall protocol. The daemon owns platform-specific work.
+
+Heimdall is in active development. The architecture is organized around a stable foundation: discover a host, establish trust, then perform a small set of useful management operations.
+
+<HeimdallArchitecture />
+
+## Problem
+
+Managing a machine from a phone usually means either typing IP addresses and hoping DHCP does not move them, or pulling an entire desktop stream for actions that only need a few commands.
+
+A phone is a good interface for questions such as:
+
+- Is the computer running?
+- How much CPU is it using?
+- Is a process consuming too much memory?
+- Restart the machine.
+- Lock the workstation.
+
+Those operations do not require streaming a desktop. They need service discovery, an authenticated control channel, and a small command set.
+
+Heimdall targets that shape of problem: **service discovery + authenticated control** for operational tasks.
+
+## Architecture
+
+Two components:
+
+1. **Android application** — the client. Written in Kotlin.
+2. **Heimdall daemon** — a Go agent on the host. It advertises itself, authenticates sessions, and executes capabilities.
+
+```text
+Android
+   |
+   | mDNS
+   v
+Heimdall Daemon
+   |
+   +-- System
+   +-- Processes
+   +-- Network
+   +-- Security
+   +-- Power
+```
+
+The daemon is designed around capabilities rather than UI operations:
+
+```text
+system
+process
+power
+network
+storage
+files
+display
+audio
+```
+
+Each capability can expose several commands. The client stays platform-agnostic; the daemon translates a command such as `power.shutdown` into the appropriate host operation.
+
+This split also leaves room for other host implementations later. The protocol can remain the same while a platform-specific agent changes.
+
+## Discovery
+
+The first problem was finding computers on the local network without asking the user for an IP address. DHCP moves addresses. Manual configuration makes the product worse.
+
+The daemon advertises itself. The phone searches for agents.
+
+<HeimdallDiscovery />
+
+Each discovered computer provides information such as:
+
+```json
+{
+  "id": "01J...",
+  "name": "desktop",
+  "platform": "linux",
+  "version": "0.1.0",
+  "port": 48271
+}
+```
+
+Discovery answers one question: _which agents are available?_
+
+The control protocol answers a different question: _what can I do with this host?_
+
+Those responsibilities stay separate so either side can evolve independently. Discovery stays lightweight. It does not carry sensitive control data.
+
+## Protocol
+
+Control uses request/response messages rather than a large REST surface. A request can look like:
+
+```json
+{
+  "type": "request",
+  "id": "req_123",
+  "method": "system.info",
+  "params": {}
+}
+```
+
+The daemon responds with:
+
+```json
+{
+  "type": "response",
+  "id": "req_123",
+  "result": {
+    "hostname": "desktop",
+    "platform": "linux",
+    "architecture": "amd64"
+  }
+}
+```
+
+The request ID allows multiple operations to be active at the same time without depending on request ordering.
+
+Capabilities are grouped by domain:
+
+```text
+system.info / system.stats
+process.list / process.inspect / process.kill
+power.shutdown / power.reboot / power.sleep / power.lock
+```
+
+Live metrics should not require polling. Instead of repeating `system.stats`, the daemon can publish events over a bidirectional connection:
+
+```json
+{
+  "type": "event",
+  "event": "system.stats",
+  "data": {
+    "cpu": 23.4,
+    "memory": 61.2
+  }
+}
+```
+
+<HeimdallProtocol />
+
+That session shape is what a live dashboard needs: requests for actions, events for changing state.
+
+## Security
+
+Remote management needs more than an open LAN socket. The intended model is pairing with cryptographic identity, then authenticated and encrypted control sessions.
+
+The daemon should have its own cryptographic identity. During initial pairing, the Android application and computer establish trust. After pairing, each side can authenticate the other. Subsequent connections use the established identity instead of asking the user to re-enter credentials.
+
+<HeimdallSecurity />
+
+Discovery remains a locator. Authentication happens when establishing the control connection. Management actions require established trust — pairing before privilege.
+
+## Implementation
+
+**Daemon in Go** for networking, concurrency, and a deployable Linux service, including systemd packaging concerns.
+
+**Client in Kotlin/Android** for a native management UI.
+
+**Capability-oriented API** so the phone stays platform-agnostic.
+
+**mDNS for discovery** to avoid manual addressing on DHCP networks.
+
+The first version focuses on a small, useful surface rather than attempting to build everything at once:
+
+```text
+System
+ ├─ System information
+ ├─ CPU usage
+ ├─ Memory usage
+ └─ Disk usage
+Processes
+ ├─ List processes
+ ├─ Inspect process
+ └─ Terminate process
+Power
+ ├─ Shutdown
+ ├─ Restart
+ ├─ Sleep
+ └─ Lock
+```
+
+Additional capabilities can layer on without rewriting the client/daemon boundary. Possible later work includes network monitoring, file management, service management, and terminal access — none of that is claimed as shipped.
+
+## Challenges
+
+- Keeping discovery simple while keeping control secure
+- Designing a protocol that supports concurrent requests and streamed events
+- Translating one command set across platform-specific implementations
+- Shipping a daemon that fits naturally on Linux (including systemd) without becoming a remote-desktop stack
+
+## Results
+
+Heimdall is in active development. The core architecture is taking shape around one principle: a computer should be manageable from a screen you already have, without streaming a desktop.
+
+The first milestone is simple: discover a computer, establish a trusted connection, and perform a small number of useful operations. Everything else can build on that foundation.
+
+| Layer    | Choices                                                                       |
+| -------- | ----------------------------------------------------------------------------- |
+| Client   | Android, Kotlin                                                               |
+| Agent    | Go, Linux, systemd                                                            |
+| Network  | mDNS, UDP, authenticated control channel                                      |
+| Concerns | service discovery, protocol design, authentication, process/system management |

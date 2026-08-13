@@ -1,0 +1,34 @@
+---
+import SectionLabel from "../SectionLabel.astro";
+import { plannedWriting } from "../../site";
+---
+
+<section class="section" id="writing" aria-labelledby="writing-heading">
+  <div class="wrap">
+    <div class="section-head">
+      <SectionLabel index="04" label="Writing" />
+      <div>
+        <h2 id="writing-heading">Writing</h2>
+        <p class="muted">
+          Technical notes will live here as they are published. Nothing is
+          public on this site yet. Until then, the deepest write-up is the
+          <a href="/work/heimdall/">Heimdall case study</a>.
+        </p>
+      </div>
+    </div>
+    <div class="notebook">
+      {
+        plannedWriting.map((topic) => (
+          <div class="notebook-row notebook-row--planned">
+            <span class="meta notebook-row__status">Planned</span>
+            <span>{topic}</span>
+            <span class="meta">—</span>
+          </div>
+        ))
+      }
+    </div>
+    <p style="margin-top: 1.5rem;">
+      <a class="more-link" href="/writing/">Open the notebook →</a>
+    </p>
+  </div>
+</section>
