@@ -1,38 +1,95 @@
 ---
 import SectionLabel from "../SectionLabel.astro";
+
+interface Experience {
+  title: {
+    role: string;
+    company: string;
+  };
+  timeline: {
+    from: Date | string;
+    to: Date | string;
+  };
+  location: {
+    city: string;
+    country: string;
+  };
+  activities: string[];
+}
+
+const items: Experience[] = [
+  {
+    title: {
+      role: "Full-stack Developer",
+      company: "Innovative Tech Labs",
+    },
+    timeline: {
+      from: "Aug 2025",
+      to: "Present",
+    },
+    location: {
+      city: "Nairobi",
+      country: "Kenya",
+    },
+    activities: [
+      "AWS migration",
+      "CI/CD automation",
+      "Event management systems",
+      "Customer-facing applications",
+      "Payment and loyalty integrations",
+    ],
+  },
+  {
+    title: {
+      role: "Full-stack Developer",
+      company: "Pakua",
+    },
+    timeline: {
+      from: "Sep 2024",
+      to: "Aug 2025",
+    },
+    location: {
+      city: "Nairobi",
+      country: "Kenya",
+    },
+    activities: [
+      "Go APIs",
+      "Real-time C2C messaging",
+      "Websockets",
+      "Inventory systems",
+    ],
+  },
+];
 ---
 
 <section class="section" id="experience" aria-labelledby="exp-heading">
   <div class="wrap">
     <div class="section-head">
-      <SectionLabel index="03" label="Experience" />
+      <SectionLabel index="04" label="Experience" />
       <div>
         <h2 id="exp-heading">Experience</h2>
         <p class="muted">A compact record. No invented metrics.</p>
       </div>
     </div>
     <ol class="timeline">
-      <li>
-        <p class="meta timeline__meta">Aug 2025 – Present · Nairobi, Kenya</p>
-        <h3>Full-stack Developer — Innovative Tech Labs</h3>
-        <ul>
-          <li>AWS migration</li>
-          <li>CI/CD automation</li>
-          <li>Event management systems</li>
-          <li>Customer-facing applications</li>
-          <li>Payment and loyalty integrations</li>
-        </ul>
-      </li>
-      <li>
-        <p class="meta timeline__meta">Sep 2024 – Aug 2025 · Nairobi, Kenya</p>
-        <h3>Full-stack Developer — Pakua</h3>
-        <ul>
-          <li>Go APIs</li>
-          <li>Real-time C2C messaging</li>
-          <li>WebSockets</li>
-          <li>Inventory systems</li>
-        </ul>
-      </li>
+      {
+        items.map((item) => (
+          <li>
+            <p class="meta timeline__meta">
+              {item.timeline.from} – {item.timeline.to} · {item.location.city},{" "}
+              {item.location.country}
+            </p>
+            <h3>
+              {item.title.role}—{item.title.company}
+            </h3>
+            <ul class="dot-list">
+              {item.activities.map((activity) => (
+                <li>{activity}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
     </ol>
   </div>
 </section>

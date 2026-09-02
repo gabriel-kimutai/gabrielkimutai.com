@@ -1,18 +1,28 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
 import PageLayout from "./PageLayout.astro";
 import SectionLabel from "../components/SectionLabel.astro";
 
 interface Props {
   entry: CollectionEntry<"writing">;
+  headings?: MarkdownHeading[];
+  newer?: CollectionEntry<"writing"> | null;
+  older?: CollectionEntry<"writing"> | null;
 }
 
-const { entry } = Astro.props;
+const { entry, headings = [], newer = null, older = null } = Astro.props;
+
 const date = entry.data.date.toLocaleDateString("en-GB", {
   year: "numeric",
   month: "short",
   day: "numeric",
 });
+
+const words = entry.body?.trim().split(/\s+/).length ?? 0;
+const minutes = Math.max(1, Math.round(words / 220));
+
+const toc = headings.filter((heading) => heading.depth === 2);
 ---
 
 <PageLayout
@@ -23,9 +33,13 @@ const date = entry.data.date.toLocaleDateString("en-GB", {
   <article>
     <header class="page-hero">
       <div class="wrap page-hero__grid">
-        <SectionLabel index="04" label="Writing" />
+        <SectionLabel index="02" label="Writing" />
         <div>
-          <p class="meta">{date}</p>
+          <p class="meta article-meta">
+            <time datetime={entry.data.date.toISOString()}>{date}</time>
+            <span aria-hidden="true">·</span>
+            <span>{minutes} min read</span>
+          </p>
           <h1>{entry.data.title}</h1>
           <p class="lead muted">{entry.data.description}</p>
         </div>
@@ -33,10 +47,25 @@ const date = entry.data.date.toLocaleDateString("en-GB", {
     </header>
     <div class="wrap article-body">
       <aside class="article-aside">
-        <p>Notes</p>
+        {
+          toc.length > 0 && (
+            <nav class="toc" aria-label="On this page">
+              <details class="toc__disclosure" data-toc open>
+                <summary class="toc__label">On this page</summary>
+                <ol class="toc__list">
+                  {toc.map((heading) => (
+                    <li>
+                      <a href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            </nav>
+          )
+        }
         {
           entry.data.tags.length > 0 && (
-            <dl>
+            <dl class="toc__meta">
               <dt>Topics</dt>
               <dd>{entry.data.tags.join(" · ")}</dd>
             </dl>
@@ -47,5 +76,43 @@ const date = entry.data.date.toLocaleDateString("en-GB", {
         <slot />
       </div>
     </div>
+    {
+      (newer || older) && (
+        <nav class="wrap article-nav" aria-label="More writing">
+          <div class="article-nav__grid">
+            {older ? (
+              <a class="article-nav__item" href={`/writing/${older.id}/`}>
+                <span class="meta">Previous</span>
+                <span class="article-nav__title">{older.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {newer && (
+              <a
+                class="article-nav__item article-nav__item--next"
+                href={`/writing/${newer.id}/`}
+              >
+                <span class="meta">Next</span>
+                <span class="article-nav__title">{newer.data.title}</span>
+              </a>
+            )}
+          </div>
+        </nav>
+      )
+    }
   </article>
 </PageLayout>
+
+<script>
+  function syncToc() {
+    const wide = window.matchMedia("(min-width: 1000px)").matches;
+    document.querySelectorAll("[data-toc]").forEach((node) => {
+      if (node instanceof HTMLDetailsElement) node.open = wide;
+    });
+  }
+
+  syncToc();
+  window.addEventListener("resize", syncToc);
+  document.addEventListener("astro:page-load", syncToc);
+</script>

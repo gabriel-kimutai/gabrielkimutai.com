@@ -23,6 +23,7 @@
 
   --measure: 38rem;
   --measure-wide: 72rem;
+  --rail: 13rem;
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --header-h: 4.25rem;
 

@@ -1,0 +1,269 @@
+---
+title: "Heimdallp: eighteen bytes in front of every message"
+description: Why I replaced JSON over TCP with a fixed binary frame, what each of the eighteen header bytes does, and the places where the specification is still ahead of the code.
+date: 2026-08-19
+draft: false
+tags:
+  - Protocol design
+  - Go
+  - Networking
+---
+
+import FrameHeaderLayout from "../../components/diagrams/FrameHeaderLayout.astro";
+import ProtocolLayers from "../../components/diagrams/ProtocolLayers.astro";
+
+[Heimdall](/work/heimdall/) is an Android client that manages a Linux machine over the local network. The phone discovers a daemon, pairs with it, and then asks it to do things: report memory, list processes, lock the screen. Two programs in two languages have to agree on what a message is.
+
+The first sketch used JSON over TCP. Every request was an object with a `type`, an `id`, and a `params` bag, and the daemon replied with an object shaped roughly the same way. It worked, and I would recommend it to anyone who wants a working prototype by the end of an afternoon.
+
+I replaced it anyway. [`heimdallp`](https://github.com/gabriel-kimutai) is the result: a Go library that defines a fixed 18-byte binary header, a payload of up to 16 MiB, and nothing else. This is a note on why the header looks the way it does, and on the parts I got wrong or have not finished.
+
+## TCP will not tell you where a message ends
+
+The thing that pushed me off JSON was not size and it was not speed. It was that I had quietly assumed TCP delivers messages, and it does not. TCP delivers a byte stream. A single read can hand you half a message, one message, three messages, or two and a half messages. Nothing in the socket API marks a boundary, because as far as the kernel is concerned there are no boundaries to mark.
+
+So you invent them. With JSON your options are to scan for a balanced closing brace, to delimit on newlines and then forbid newlines inside payloads, or to prefix each document with its length. The first two are parsing problems dressed up as I/O problems. The third is the correct answer, and once you have written it you have already built a binary framing layer. At that point the JSON inside it is just a payload format you have not chosen deliberately.
+
+That is the whole argument. A length prefix is not an optimisation, it is the minimum honest response to a stream transport. Having conceded the prefix, I wanted the rest of the envelope to be equally explicit.
+
+<ProtocolLayers />
+
+The layering fell out of that. The transport moves bytes. The frame layer finds message boundaries and validates the envelope. The message layer decides what a message type means. A payload codec turns bytes into structures. Each layer is allowed to know about the one below it and nothing above.
+
+## The header
+
+Eighteen bytes, big-endian, in front of every payload.
+
+<FrameHeaderLayout />
+
+```go
+type FrameHeader struct {
+	Magic      uint16
+	Version    uint8
+	Flags      uint8
+	MsgType    MsgType
+	PayloadLen uint32
+	RequestID  uint64
+}
+```
+
+**Magic** is `0x4844`, which is ASCII `HD`. It does not authenticate anything. It exists so that when something connects to the daemon's port and starts talking HTTP at it, the failure is immediate and legible instead of arriving later as a nonsensical payload length.
+
+**Version** is the frame version, deliberately separate from the application version. A Heimdall release can change what `GET_CPU_INFO` returns without touching this byte. Only a change to the envelope itself increments it.
+
+**Flags** is one byte carrying the message class and a couple of reserved bits. More on this below.
+
+**Message type** is a 16-bit identifier. The frame layer never looks at it, it only carries it.
+
+**Payload length** is 32 bits, capped at 16 MiB.
+
+**Request ID** is 64 bits, and it is the reason responses can arrive out of order.
+
+A complete frame is `18 + PayloadLen` bytes. The minimum is 18, because a zero-length payload is legal and `GET_SYSTEM_INFO` genuinely has no parameters.
+
+## The field that decided the encoding
+
+Look at where the request ID starts. Byte offset 10.
+
+That is not a multiple of 8, and on most platforms a `uint64` in a struct wants 8-byte alignment. If I had done the tempting thing and cast the header struct straight onto a byte buffer, the compiler would have inserted padding before `RequestID` to align it, and the struct would have serialised to 24 bytes rather than 18. It would also have written every multi-byte field in the host's byte order, which on x86 and ARM means little-endian, which is the wrong order for a network protocol.
+
+The failure mode is what makes this worth writing down. Both ends of a struct-punned protocol produce and consume the same wrong layout, so it works perfectly until the day a machine with different alignment rules or a different endianness joins the conversation. Then it breaks, and it breaks somewhere far away from the code that caused it.
+
+So the spec forbids it, and the implementation encodes every field by hand:
+
+```go
+func (h *FrameHeader) marshalBinary() []byte {
+	buf := make([]byte, HEADER_SIZE)
+
+	binary.BigEndian.PutUint16(buf[0:2], h.Magic)
+	buf[2] = h.Version
+	buf[3] = h.Flags
+	binary.BigEndian.PutUint16(buf[4:6], uint16(h.MsgType))
+	binary.BigEndian.PutUint32(buf[6:10], h.PayloadLen)
+	binary.BigEndian.PutUint64(buf[10:18], h.RequestID)
+
+	return buf
+}
+```
+
+Tedious and completely unambiguous. Those offsets are the specification, not a consequence of how Go happens to lay out a struct today. The Kotlin side will write the same bytes from entirely different code.
+
+I could have padded the header to 24 bytes and made everything naturally aligned. I decided that adding six wasted bytes to every message to avoid writing six lines of explicit encoding was the wrong trade, particularly for a protocol whose common case is a request with no payload at all.
+
+## A bad magic value ends the connection
+
+When the first two bytes are not `HD`, the obvious instinct is to skip forward through the stream looking for the next `48 44` and resume from there. Plenty of protocols do this. The spec bans it:
+
+> A receiver that encounters an invalid magic value must treat the frame as invalid and must not scan forward through the stream looking for the next occurrence of the magic value.
+
+The reasoning is that a stream with a bad magic value is a stream you no longer understand. Either the sender is broken, or something is corrupting the connection, or someone is deliberately feeding you bytes. Resynchronising means guessing where the next real message starts, and `48 44` is two extremely common bytes that will appear inside payloads constantly. You will find one. It will not be a frame header. Now you are parsing attacker-influenced data as an envelope.
+
+Closing the connection costs a reconnect. Guessing costs you the ability to reason about anything that happens next.
+
+## Validate before you allocate
+
+The read path is four steps, and the order of the middle two is the entire security argument:
+
+```go
+func (fr *FrameReader) ReadFrame() (*Frame, error) {
+	headerBuf := make([]byte, HEADER_SIZE)
+	if _, err := io.ReadFull(fr.reader, headerBuf); err != nil {
+		return nil, err
+	}
+
+	var header FrameHeader
+	if err := header.UnmarshalBinary(headerBuf); err != nil {
+		return nil, err
+	}
+
+	payload := make([]byte, header.PayloadLen)
+	if _, err := io.ReadFull(fr.reader, payload); err != nil {
+		return nil, err
+	}
+
+	return &Frame{
+		FrameHeader: header,
+		Payload:     payload,
+	}, nil
+}
+```
+
+`UnmarshalBinary` validates, and it runs before the `make([]byte, header.PayloadLen)`. It has to. `PayloadLen` is a 32-bit field controlled entirely by whoever is on the other end of the socket, so without a bound it can ask for four gigabytes. Anyone who can open a TCP connection to the daemon could then exhaust its memory by sending eighteen bytes and hanging up. That is a very cheap denial of service against a process that is, by design, running on someone's desktop with the ability to shut it down.
+
+The 16 MiB cap is not a considered estimate of the largest useful Heimdall message. It is a number comfortably above anything the protocol should ever need, chosen so the limit never has to be revisited while still being small enough that a rejected frame costs nothing. If a message ever legitimately approaches it, that message wants to be a stream, not a frame.
+
+`io.ReadFull` handles the other half of the stream problem. It loops until it has exactly the number of bytes asked for, or fails. A plain `Read` returning 11 of 18 header bytes is not an error condition, it is Tuesday.
+
+## Exactly one class per frame
+
+The flags byte is where I put the state machine:
+
+```go
+const (
+	FL_REQUEST    = 0x01
+	FL_RESPONSE   = 0x02
+	FL_EVENT      = 0x04
+	FL_ERROR      = 0x08
+	FL_COMPRESSED = 0x10
+	FL_ENCRYPTED  = 0x20
+	FL_RESERVED01 = 0x40
+	FL_RESERVED02 = 0x80
+)
+```
+
+`REQUEST`, `RESPONSE`, and `EVENT` are mutually exclusive and exactly one must be set. `ERROR` is a modifier that may only appear alongside `RESPONSE`, because an error is always an answer to something. The valid combinations are `REQUEST`, `RESPONSE`, `RESPONSE | ERROR`, and `EVENT`. Everything else is a protocol error.
+
+Writing the rule down as a constraint rather than a convention matters, because it means a receiver can reject `REQUEST | RESPONSE` at the envelope without ever consulting the message layer. Ambiguity about what a message even is should not be allowed to travel further into the system.
+
+`COMPRESSED` and `ENCRYPTED` have bits assigned and are not implemented. Setting either is currently a protocol error. I reserved them because adding a flag later is free and renumbering one is not, but I did not want to ship a bit that a receiver would have to guess about. The two reserved bits at the top must be zero, which gives future versions somewhere to go.
+
+## Request IDs make concurrency possible
+
+The 64-bit request ID is what lets the client have several operations in flight without caring about ordering. Ask for CPU info and a process list at the same time, and whichever the daemon finishes first comes back first. Correlation is by ID, not by position in the stream.
+
+Zero is reserved. Events must use it, requests must never use it, and a response carrying zero is invalid. That gives the receiver a cheap structural check: an `EVENT` frame with a nonzero request ID is malformed at the envelope, and a `REQUEST` with zero is too. The `0` is not a null so much as a statement that this frame answers to nothing.
+
+64 bits is more than a single connection will ever need. It is also small enough not to matter next to a header I had already decided would be explicit, and it removes any question about wraparound from a monotonic counter.
+
+## Message types carry their category in the high byte
+
+```go
+const (
+	MsgTypeProtocol MsgType = 0x0000
+	MsgTypeSystem   MsgType = 0x0100
+	MsgTypeProcess  MsgType = 0x0200
+	MsgTypeNetwork  MsgType = 0x0300
+	MsgTypeStorage  MsgType = 0x0400
+	MsgTypePower    MsgType = 0x0500
+	// ...
+)
+```
+
+The high byte is the domain and the low byte is an operation within it, so `0x0104` is the fifth system message and anything beginning `0x02` is about processes. Request and response types are assigned in sequential pairs:
+
+```text
+0x0100 GET_SYSTEM_INFO
+0x0101 SYSTEM_INFO
+0x0102 GET_CPU_INFO
+0x0103 CPU_INFO
+0x0104 GET_MEMORY_INFO
+0x0105 MEMORY_INFO
+```
+
+Once published, an ID is never reused for a different message, even after the message is retired. Reusing a retired ID means an old client and a new daemon can both believe they are speaking version 1 while disagreeing about what `0x0104` means, and that disagreement surfaces as corrupted data rather than as a version error.
+
+Unknown message types are explicitly not a framing error. A frame carrying a type the daemon has never heard of is structurally fine, gets parsed successfully, and earns an error response while the connection stays open. Only the envelope being wrong is fatal.
+
+## What a frame actually looks like
+
+A `GET_MEMORY_INFO` request, ID 42, with a two-byte payload:
+
+```text
+48 44 01 01 01 04 00 00 00 02 00 00 00 00 00 00 00 2A DE AD
+|<------------------- 18-byte header ------------------->|<payload->|
+```
+
+`48 44` magic, `01` version, `01` REQUEST, `01 04` the message type, `00 00 00 02` two payload bytes, then the request ID with `2A` in the last position because 42 is small and the field is eight bytes wide. That literal byte sequence is a constant in the test suite, so a change to the encoder that alters the wire format fails immediately rather than passing a round-trip test against itself.
+
+Round-trip tests are necessary and they are not sufficient. An encoder and decoder that are wrong in exactly the same way agree with each other perfectly.
+
+## The write path has its own stream problem
+
+Writers can accept partial data, so the write loop is not one call:
+
+```go
+for len(data) > 0 {
+	n, err := fw.writer.Write(data)
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		return io.ErrShortWrite
+	}
+	data = data[n:]
+}
+```
+
+The `n == 0` check is there to avoid an infinite loop. A writer returning zero bytes written and no error is not making progress and never will, so the loop has to treat it as a failure rather than spinning. This is the kind of thing that never fires in testing against a `bytes.Buffer` and then fires in production, so the test suite includes a writer that deliberately accepts three bytes at a time.
+
+## Where the spec is ahead of the code
+
+This is the part I would skip if I were trying to make the project look finished.
+
+The frame specification defines validation in eight ordered steps. `Validate()` currently implements three of them:
+
+```go
+func (h *FrameHeader) Validate() error {
+	if h.Magic != MAGIC {
+		return errInvalidMagic(h.Magic)
+	}
+
+	if h.PayloadLen > MAX_PAYLOAD_SIZE {
+		return errPayloadLenTooLarge(h.PayloadLen)
+	}
+
+	if h.Version != VERSION {
+		return errUnsupportedVersion(h.Version)
+	}
+
+	return nil
+}
+```
+
+Magic, payload length, version. No flag validation, so `REQUEST | RESPONSE` passes. No reserved-bit check. No request ID rules, so an event with ID 99 sails through. And because `COMPRESSED` is unenforced, there is a test in the repository that round-trips `FL_EVENT | FL_COMPRESSED` and asserts that it succeeds, which is a direct contradiction of a MUST in the document sitting two directories away.
+
+The test is green. The test is also wrong, and it is wrong in the specific way that unit tests are dangerous: it encodes the current behaviour of the code rather than the intended behaviour of the system, so it will actively resist the fix.
+
+I am not treating this as an embarrassment, because writing the spec first is what let me notice the gap at all. Everything the code does is correct. It is the set of things it declines to reject that is incomplete, and I know precisely which ones because they are enumerated in a document. The alternative, where the implementation is the specification, does not produce that list.
+
+## The hole I left on purpose
+
+The frame is done. Above it, the message spec says this about payloads:
+
+> The payload is message-specific. Each message specification MUST define: payload encoding, field types, sizes and ordering, required and optional fields, valid ranges, unknown-field behavior. The message layer MUST NOT assume that all payloads share the same encoding.
+
+Which is a careful way of saying I have not decided. The envelope is fully specified and the contents are not, and 16 MiB of opaque bytes is not a serialisation format.
+
+Deferring it was the right call for shipping the frame layer, and it cannot be deferred much longer, because the moment a `MEMORY_INFO` payload needs to be encoded in Go and decoded in Kotlin, that layout exists whether or not anyone wrote it down. If it is not in a specification it will be in two implementations, and they will disagree.
+
+That is the argument for a compiler, which is [what I have been sketching next](/writing/notes-on-a-protocol-compiler/).

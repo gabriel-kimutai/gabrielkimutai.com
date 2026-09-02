@@ -1,6 +1,8 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 export default defineConfig({
   site: "https://gabrielkimutai.com",
@@ -19,6 +21,23 @@ export default defineConfig({
       theme: "vitesse-black",
       wrap: true,
     },
+    processor: unified({
+      rehypePlugins: [
+        rehypeHeadingIds,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "append",
+            properties: {
+              class: "heading-anchor",
+              ariaHidden: "true",
+              tabIndex: -1,
+            },
+            content: { type: "text", value: "#" },
+          },
+        ],
+      ],
+    }),
   },
   prefetch: {
     prefetchAll: true,
@@ -28,9 +47,11 @@ export default defineConfig({
     "/en": "/",
     "/en/work": "/work/",
     "/en/work/heimdall": "/work/heimdall/",
-    "/en/work/pakua": "/work/pakua/",
     "/en/work/plutus": "/work/plutus/",
-    "/en/work/event-payment-systems": "/work/event-payment-systems/",
+    "/en/work/pakua": "/work/",
+    "/work/pakua": "/work/",
+    "/en/work/event-payment-systems": "/work/",
+    "/work/event-payment-systems": "/work/",
     "/en/writing": "/writing/",
     "/en/about": "/about/",
     "/en/engineering": "/#engineering",

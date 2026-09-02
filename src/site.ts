@@ -16,11 +16,20 @@ export const nav = [
   { href: "/about/", label: "About" },
 ] as const;
 
-export const plannedWriting = [
-  "Building mDNS service discovery from scratch",
-  "Designing a computer management daemon",
-  "Building a UDP-based application protocol",
-  "Reverse engineering Bluetooth HCI traffic",
-  "Designing event-driven systems",
-  "Running production services on Linux",
+export const currently = [
+  {
+    label: "Working",
+    value: "Full-stack developer at Innovative Tech Labs",
+    href: null,
+  },
+  {
+    label: "Building",
+    value: "Heimdall — machine management over a LAN",
+    href: "/work/heimdall/",
+  },
+  {
+    label: "Reading",
+    value: "Protocol specs, mostly other people's",
+    href: null,
+  },
 ] as const;

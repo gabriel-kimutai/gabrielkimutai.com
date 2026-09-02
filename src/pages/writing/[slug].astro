@@ -3,19 +3,24 @@ import { getCollection, render } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("writing").catch(() => []);
-  return entries
+  const entries = (await getCollection("writing").catch(() => []))
     .filter((entry) => !entry.data.draft)
-    .map((entry) => ({
-      params: { slug: entry.id },
-      props: { entry },
-    }));
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return entries.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      newer: entries[i - 1] ?? null,
+      older: entries[i + 1] ?? null,
+    },
+  }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { entry, newer, older } = Astro.props;
+const { Content, headings } = await render(entry);
 ---
 
-<ArticleLayout entry={entry}>
+<ArticleLayout entry={entry} headings={headings} newer={newer} older={older}>
   <Content />
 </ArticleLayout>

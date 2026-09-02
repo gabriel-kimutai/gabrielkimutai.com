@@ -2,12 +2,19 @@
 interface Props {
   caption?: string;
   bleed?: boolean;
+  /** Keep a legibility floor on narrow screens and scroll instead of shrinking. */
+  scroll?: boolean;
 }
 
-const { caption, bleed = false } = Astro.props;
+const { caption, bleed = false, scroll = false } = Astro.props;
 ---
 
-<figure class:list={["diagram", { "diagram--bleed": bleed }]}>
+<figure
+  class:list={[
+    "diagram",
+    { "diagram--bleed": bleed, "diagram--scroll": scroll },
+  ]}
+>
   <slot />
   {caption && <figcaption class="diagram__caption">{caption}</figcaption>}
 </figure>

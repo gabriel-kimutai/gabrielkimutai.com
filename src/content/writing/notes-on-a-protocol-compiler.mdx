@@ -1,0 +1,151 @@
+---
+title: "Heimdallc: notes before writing a compiler"
+description: The same Heimdall message is currently spelled three different ways in three different files. These are the design notes for the tool that should fix that, written before any of it exists.
+date: 2026-08-30
+draft: false
+tags:
+  - Compilers
+  - Protocol design
+  - Rust
+---
+
+import CodegenFanout from "../../components/diagrams/CodegenFanout.astro";
+
+This is a design note, not a retrospective. At the time of writing, `heimdallc` is an empty Rust project and one sample file. There is no lexer, no parser, and no code generator. I am writing this because the reasoning is more useful to me on a page than in my head, and because the problem it solves is already visible in code I have shipped.
+
+If you want the protocol it targets, that is [the previous note](/writing/designing-a-binary-protocol/).
+
+## One message, three spellings
+
+Here is the state of the message layer today. From the specification:
+
+```text
+0x0104 GET_MEMORY_INFO
+0x0105 MEMORY_INFO
+```
+
+From the Go constants:
+
+```go
+M_GET_MEM_INFO MsgType = MsgTypeSystem | 0x0004
+M_MEM_INFO     MsgType = MsgTypeSystem | 0x0005
+```
+
+And from the map that turns those constants back into strings for logging:
+
+```go
+M_GET_MEM_INFO:  "system:get_mem_info",
+M_MEM_INFO:      "system:mem_info",
+```
+
+Three files, three spellings, one message. `MEMORY_INFO` in the document, `M_MEM_INFO` in the constant, `system:mem_info` in the log output. The numbers agree, which is the part that actually matters on the wire, so nothing is broken. But if you grep for the name in the specification you will not find the code, and if you read a log line you will not find either.
+
+Nothing enforces that these three stay aligned. They agree today because I wrote them within an hour of each other. The next message I add at eleven at night will be the one that does not.
+
+## What a message costs right now
+
+Adding `GET_DISK_INFO` to Heimdall means, in order:
+
+Pick the next free ID in the system range and check nothing else claimed it. Add two constants, request and response. Add two entries to `msgTypeNames`, matching the naming convention I have already broken twice. Write the payload encoder in Go, by hand, with explicit big-endian field writes, because the frame spec forbids struct punning. Write the matching decoder. Then write the encoder and decoder again in Kotlin for the Android client.
+
+Six of those seven steps are mechanical transformations of a single fact: a disk info response contains these fields, in this order, with these types. The seventh is picking a number.
+
+That is a compiler-shaped problem. It is the exact shape protobuf and Cap'n Proto and Thrift exist to solve, and if Heimdall's payloads were going to be protobuf I would simply use protobuf and stop writing this.
+
+## Why not just use protobuf
+
+I considered it seriously, and it remains the sensible answer for most people.
+
+The reason I am not using it is that Heimdall already has a frame layer with its own header, versioning, flags, and request correlation, all specified byte by byte. Adopting protobuf means the payload lives inside a self-describing wire format with its own field tags and varints, nested inside my envelope, which already carries the message type that tells you exactly what the payload is. The type tag is redundant with my message type field. I would be paying for self-description I have already provided one layer down.
+
+There is also a smaller, more honest reason. I want to write the compiler. The protocol is a personal project, learning how a lexer, a parser, and a code generator fit together is a large part of the point, and pretending otherwise in a design note would be silly.
+
+What I am not doing is pretending the trade is free. Protobuf has a decade of edge cases handled, two mature Kotlin implementations, and a wire format nobody has to argue about. I am giving all of that up for something I control completely.
+
+<CodegenFanout />
+
+## The sketch
+
+This is the only artifact in the repository, verbatim:
+
+```text
+protocol Heimdall {
+  version 1
+
+  message SysInfo {
+    type 0x0001
+    category request
+
+    string hostname
+    string os
+    string architecture
+    uint64 memory
+  }
+}
+```
+
+I wrote it in a couple of minutes to see what the language should feel like, and re-reading it now, three things are wrong with it. That is a good sign for a sketch. It is the cheapest place to find these.
+
+**`category request` conflates two different things.** In the protocol, category is the domain, meaning system or process or power, and it lives in the high byte of the message type. Whether something is a request or a response is a _class_, and it lives in the flags byte of the frame header, not in the type at all. The sketch has used one keyword for two orthogonal concepts. They need separate names, probably `category system` and `class request`.
+
+**The ID is in the wrong range.** The sample says `type 0x0001`. But `0x0001` through `0x00FF` is the protocol control range, where `HELLO` and `AUTH` and `PING` live. A system message has to start at `0x0100`. In Go this is written `MsgTypeSystem | 0x0001`, which evaluates to `0x0101`. The sketch dropped the category bits entirely, which is precisely the class of mistake the compiler should make impossible.
+
+**`SysInfo` is described as a request but has the fields of a response.** A `GET_SYSTEM_INFO` request takes no parameters and has an empty payload. Hostname, OS, architecture, and memory are what comes _back_. I labelled the response with the request's class.
+
+Three errors in twelve lines. Every one of them is a static property of the schema that a semantic analysis pass could reject with a decent error message.
+
+## The questions I have not answered
+
+These are genuinely open. I am recording them rather than resolving them, because guessing now and discovering the answer later is how a wire format ends up with a permanent apology in it.
+
+### How is a string encoded
+
+`string hostname` has to become bytes. The options are a length prefix, a null terminator, or a fixed-width field.
+
+Null termination is out, because it makes any string containing a zero byte unrepresentable, and it turns decoding into a scan. Fixed width wastes space on hostnames and truncates the pathological ones.
+
+So it is a length prefix, and the question becomes how wide. A `u32` prefix costs four bytes on every string in a protocol whose strings are almost all short hostnames and process names, which is most of the payload for something like a process list. A `u16` caps a string at 64 KiB, which is fine for everything in Heimdall today and will be embarrassing the first time someone wants a command's full output in a field. A varint is the correct engineering answer and adds a whole encoding scheme to a format I wanted to keep boring.
+
+I also have to decide whether the decoder validates UTF-8 or hands back bytes. Validating is what callers want. It also means a decoder can fail on well-framed, correctly-lengthed data, which pushes a new error class up into the message layer.
+
+### Positional or tagged
+
+This is the big one, because it determines whether the protocol can evolve.
+
+Positional encoding writes fields back to back in declaration order and stores nothing about which field is which. It is compact and trivial to generate. It also means that adding a field to a message is a breaking change, and worse, a _silent_ one: an old decoder reading a new message will read the new field's bytes as whatever followed it in the old layout, and either produce garbage or fail somewhere unrelated.
+
+Tagged encoding writes an identifier before each field, so a decoder can skip what it does not recognise. That is how protobuf achieves forward compatibility, and it costs bytes on every single field.
+
+The frame layer already made a version of this decision by putting the version in the header and saying that a breaking change increments it. If a version bump is genuinely cheap, positional is defensible. It is cheap when both ends ship together, and Heimdall does not ship both ends together, because the daemon is on a machine and the client is on a phone that updates on its own schedule. Somebody will run a six-month-old client against a current daemon.
+
+That argues for tagged, or at least for a scheme where unknown trailing fields are skippable. The message spec already requires each message to define its unknown-field behaviour, which I now read as past me leaving a note for present me.
+
+### Where do IDs come from
+
+Given `category system` and a message name, the compiler could assign the next sequential ID automatically. That would have prevented the range error in the sketch.
+
+It would also mean the wire format depends on declaration order in the schema file. Reorder two messages, recompile, and every ID shifts. The protocol spec is explicit that a published ID is frozen forever, including retired ones, so any scheme where IDs are implicit in file layout is unsafe.
+
+The likely answer is explicit full IDs, written as `type 0x0104`, with the compiler verifying that the value falls inside the declared category's range, that no two messages claim it, and that request and response pairs are adjacent. Verification rather than generation. Less elegant, and it cannot silently renumber the wire format.
+
+## Why Rust
+
+The daemon is Go and the client is Kotlin, so the compiler could reasonably be either.
+
+Rust wins on the part of the job that dominates: modelling an AST as a tree of enums, then exhaustively matching on it. A compiler is a long series of transformations between tree shapes, and a compiler saying that a match arm is missing is worth a great deal when you add a node type in month four. Go's type system makes that pattern possible but not pleasant.
+
+The error reporting ecosystem is the other reason. Good compiler diagnostics need source spans, and pointing at the exact column of the offending token is most of what separates a tool people tolerate from one they resent. Crates like `ariadne` and `miette` do this well and I would otherwise be building it myself.
+
+Rust is also the language I am least fluent in, and a self-contained project with no users is a good place to fix that.
+
+## What it should do first
+
+Not much. A version worth having reads one `.hmd` file, reports a useful error for the three mistakes already in the sample, and emits Go constants plus a Go encoder and decoder for one message. Kotlin comes second. Imports, enums, nested messages, and optional fields come much later or never.
+
+The bar for whether this was worth building is narrow and easy to check. Adding `GET_DISK_INFO` should mean editing one file, and the name in the log should match the name in the schema.
+
+## Status
+
+Nothing above is implemented. `heimdallc` is `cargo new` and `samples/sysinfo.hmd`. There are no commits.
+
+I would rather publish the reasoning while it is still reversible than write it up afterwards as though the conclusions were obvious. Several of the decisions here will turn out to be wrong, and the string prefix width is my bet for the first one.

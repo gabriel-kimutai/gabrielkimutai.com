@@ -1,5 +1,5 @@
 ---
-import { site } from "../../site";
+import { site, currently } from "../../site";
 import SectionLabel from "../SectionLabel.astro";
 import HeroDiagram from "../HeroDiagram.astro";
 ---
@@ -11,16 +11,32 @@ import HeroDiagram from "../HeroDiagram.astro";
         <SectionLabel index="00" label="Intro" />
       </div>
       <h1 id="hero-title">{site.name}</h1>
-      <p class="hero__role">{site.role}</p>
+      <p class="hero__role">{site.role} · {site.location}</p>
       <p class="hero__lede">
-        I build software across backend systems, networking, mobile, and
-        infrastructure.
+        I build backend services, Android clients, and the networking in
+        between. Lately that has meant designing a binary protocol from the
+        header bytes up, which is a slower way to solve the problem and a much
+        better way to understand it.
       </p>
       <ul class="hero__links">
         <li><a href="#work">Selected work</a></li>
-        <li><a href={site.github} rel="noopener noreferrer">GitHub</a></li>
         <li><a href="/writing/">Writing</a></li>
+        <li>
+          <a href={site.github} rel="noopener noreferrer">GitHub</a>
+        </li>
       </ul>
+      <dl class="hero__now">
+        {
+          currently.map((item) => (
+            <div class="hero__now-row">
+              <dt class="meta">{item.label}</dt>
+              <dd>
+                {item.href ? <a href={item.href}>{item.value}</a> : item.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
     <HeroDiagram />
   </div>

@@ -6,10 +6,15 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
     <p>© {year} {site.name}</p>
+    <p class="site-footer__colophon">
+      Newsreader &amp; IBM Plex Mono · Astro · no trackers
+    </p>
     <p>
       <a href={site.github} rel="noopener noreferrer">GitHub</a>
       ·
       <a href={site.linkedin} rel="noopener noreferrer">LinkedIn</a>
+      ·
+      <a href="/rss.xml">RSS</a>
       ·
       <a href={`mailto:${site.email}`}>Email</a>
     </p>

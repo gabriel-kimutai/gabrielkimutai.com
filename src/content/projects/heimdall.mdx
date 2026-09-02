@@ -9,7 +9,8 @@ technologies:
   - Android
   - Kotlin
   - mDNS
-  - UDP
+  - TCP
+  - Binary protocol
   - Linux
   - systemd
 categories:
@@ -120,57 +121,35 @@ Those responsibilities stay separate so either side can evolve independently. Di
 
 ## Protocol
 
-Control uses request/response messages rather than a large REST surface. A request can look like:
+Control uses request/response messages over TCP rather than a REST surface. The first version was JSON, which was replaced by a binary protocol once it became clear that a length-prefixed envelope was required regardless.
 
-```json
-{
-  "type": "request",
-  "id": "req_123",
-  "method": "system.info",
-  "params": {}
-}
-```
-
-The daemon responds with:
-
-```json
-{
-  "type": "response",
-  "id": "req_123",
-  "result": {
-    "hostname": "desktop",
-    "platform": "linux",
-    "architecture": "amd64"
-  }
-}
-```
-
-The request ID allows multiple operations to be active at the same time without depending on request ordering.
-
-Capabilities are grouped by domain:
+Every message is a fixed 18-byte header followed by a payload of up to 16 MiB:
 
 ```text
-system.info / system.stats
-process.list / process.inspect / process.kill
-power.shutdown / power.reboot / power.sleep / power.lock
++---------+----+----+---------+-------------------+---------------------------------------+
+|  Magic  |Ver |Flg |  Type   |  Payload Length   |              Request ID               |
++---------+----+----+---------+-------------------+---------------------------------------+
+|<- 2B -->|1B  |1B  |<- 2B -->|<------ 4B ------->|<---------------- 8B ----------------->|
 ```
 
-Live metrics should not require polling. Instead of repeating `system.stats`, the daemon can publish events over a bidirectional connection:
+All multi-byte fields are big-endian and encoded explicitly, field by field. The 64-bit request ID lets several operations be in flight at once without depending on ordering, since responses are correlated by ID rather than by position in the stream.
 
-```json
-{
-  "type": "event",
-  "event": "system.stats",
-  "data": {
-    "cpu": 23.4,
-    "memory": 61.2
-  }
-}
+The flags byte carries the message class. Exactly one of `REQUEST`, `RESPONSE`, or `EVENT` must be set, and `ERROR` may only accompany a response. Events use request ID `0`, which is reserved for messages that answer to nothing.
+
+Message types are 16-bit, with the high byte identifying the domain:
+
+```text
+0x0100 - 0x01FF   system
+0x0200 - 0x02FF   process
+0x0300 - 0x03FF   network
+0x0500 - 0x05FF   power
 ```
+
+Live metrics do not require polling. The daemon publishes them as events on the same connection, which is the session shape a live dashboard needs: requests for actions, events for changing state.
 
 <HeimdallProtocol />
 
-That session shape is what a live dashboard needs: requests for actions, events for changing state.
+The frame layer ships as [`heimdallp`](https://github.com/gabriel-kimutai), a standalone Go library with its own specification. Payload encoding above the frame is deliberately still open. There is a longer write-up of the design in [Eighteen bytes in front of every message](/writing/designing-a-binary-protocol/).
 
 ## Security
 
@@ -230,5 +209,5 @@ The first milestone is simple: discover a computer, establish a trusted connecti
 | -------- | ----------------------------------------------------------------------------- |
 | Client   | Android, Kotlin                                                               |
 | Agent    | Go, Linux, systemd                                                            |
-| Network  | mDNS, UDP, authenticated control channel                                      |
+| Network  | mDNS discovery, TCP control, custom binary framing                            |
 | Concerns | service discovery, protocol design, authentication, process/system management |

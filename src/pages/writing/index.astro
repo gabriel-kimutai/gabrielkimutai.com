@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import PageLayout from "../../layouts/PageLayout.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
-import { plannedWriting } from "../../site";
 
 const published = (await getCollection("writing").catch(() => []))
   .filter((entry) => !entry.data.draft)
@@ -11,16 +10,17 @@ const published = (await getCollection("writing").catch(() => []))
 
 <PageLayout
   title="Writing"
-  description="Technical writing on systems, networking, and production engineering. Articles appear here as they are published."
+  description="Notes on protocol design, systems, and the parts of a project that are still unfinished."
 >
   <section class="page-hero">
     <div class="wrap page-hero__grid">
-      <SectionLabel index="04" label="Writing" />
+      <SectionLabel index="02" label="Writing" />
       <div>
         <h1>Writing</h1>
         <p class="lead muted">
-          An engineering notebook. Published pieces will be listed first.
-          Planned topics are not articles yet.
+          Notes on things I have built, including the decisions I am not sure
+          about yet. Written while the reasoning is still fresh enough to be
+          wrong.
         </p>
       </div>
     </div>
@@ -28,40 +28,46 @@ const published = (await getCollection("writing").catch(() => []))
   <section class="section section--flush">
     <div class="wrap">
       {
-        published.length > 0 && (
-          <div class="notebook" style="margin-bottom: 3rem;">
+        published.length === 0 ? (
+          <p class="muted">Nothing published yet.</p>
+        ) : (
+          <ol class="entry-list">
             {published.map((entry) => (
-              <a class="notebook-row" href={`/writing/${entry.id}/`}>
-                <span class="meta">
-                  {entry.data.date.toLocaleDateString("en-GB", {
-                    year: "numeric",
-                    month: "short",
-                  })}
-                </span>
-                <span>{entry.data.title}</span>
-                <span class="more-link">Read →</span>
-              </a>
+              <li class="entry">
+                <a class="entry__link" href={`/writing/${entry.id}/`}>
+                  <p class="meta entry__date">
+                    <time datetime={entry.data.date.toISOString()}>
+                      {entry.data.date.toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </time>
+                  </p>
+                  <div class="entry__body">
+                    <h2 class="entry__title">{entry.data.title}</h2>
+                    <p class="entry__summary">{entry.data.description}</p>
+                    {entry.data.tags.length > 0 && (
+                      <ul class="tech-meta entry__tags">
+                        {entry.data.tags.map((tag) => (
+                          <li>{tag}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <span class="entry__cue meta" aria-hidden="true">
+                    Read
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ol>
         )
       }
 
-      <p class="meta" style="margin-bottom: 1rem;">Planned</p>
-      <div class="notebook">
-        {
-          plannedWriting.map((topic) => (
-            <div class="notebook-row notebook-row--planned">
-              <span class="meta notebook-row__status">Unpublished</span>
-              <span>{topic}</span>
-              <span class="meta">—</span>
-            </div>
-          ))
-        }
-      </div>
-      <p class="muted" style="margin-top: 2rem; max-width: 36rem;">
-        Until a first note is published, the deepest technical write-up on this
-        site is the
-        <a href="/work/heimdall/">Heimdall case study</a>.
+      <p class="muted writing-outro">
+        The feed is at <a href="/rss.xml">/rss.xml</a> if you would rather not check
+        back.
       </p>
     </div>
   </section>

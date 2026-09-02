@@ -1,0 +1,130 @@
+---
+import TechnicalDiagram from "../TechnicalDiagram.astro";
+
+const BYTE = 30;
+const ORIGIN = 16;
+
+const fields = [
+  { label: "MAGIC", offset: 0, size: 2, width: "2B" },
+  { label: "V", offset: 2, size: 1, width: "1B" },
+  { label: "F", offset: 3, size: 1, width: "1B" },
+  { label: "TYPE", offset: 4, size: 2, width: "2B" },
+  { label: "LENGTH", offset: 6, size: 4, width: "4B" },
+  { label: "REQUEST ID", offset: 10, size: 8, width: "8B" },
+];
+
+const payloadX = ORIGIN + 18 * BYTE;
+const boxTop = 58;
+const boxHeight = 46;
+---
+
+<TechnicalDiagram
+  caption="Fig. 08 — The 18-byte frame header. Request ID starts at offset 10, which no native struct will lay out for you."
+  bleed
+  scroll
+>
+  <svg viewBox="0 0 640 150" role="img" aria-labelledby="frame-header-title">
+    <title id="frame-header-title">
+      Byte layout of the Heimdall frame header: a two-byte magic value, a
+      one-byte version, a one-byte flags field, a two-byte message type, a
+      four-byte payload length, and an eight-byte request ID beginning at offset
+      ten, followed by the payload.
+    </title>
+
+    {
+      fields.map((field) => {
+        const x = ORIGIN + field.offset * BYTE;
+        const w = field.size * BYTE;
+        const isRequestId = field.offset === 10;
+        return (
+          <g>
+            <rect
+              x={x}
+              y={boxTop}
+              width={w}
+              height={boxHeight}
+              fill="none"
+              stroke="#c97a3a"
+              stroke-width="1.2"
+            />
+            <text
+              x={x + w / 2}
+              y={boxTop + 27}
+              text-anchor="middle"
+              font-family="IBM Plex Mono, ui-monospace, monospace"
+              font-size="10.5"
+              fill="#ece6d9"
+            >
+              {field.label}
+            </text>
+            <text
+              x={x + w / 2}
+              y={boxTop + 40}
+              text-anchor="middle"
+              font-family="IBM Plex Mono, ui-monospace, monospace"
+              font-size="9.5"
+              fill="#5e594f"
+            >
+              {field.width}
+            </text>
+            <text
+              x={x + 2}
+              y={boxTop - 10}
+              font-family="IBM Plex Mono, ui-monospace, monospace"
+              font-size="10"
+              fill={isRequestId ? "#e0944e" : "#8f887b"}
+            >
+              {field.offset}
+            </text>
+            <path
+              d={`M${x} ${boxTop - 6} V ${boxTop}`}
+              stroke={isRequestId ? "#e0944e" : "#3d3931"}
+              stroke-width="1"
+            />
+          </g>
+        );
+      })
+    }
+
+    <rect
+      x={payloadX}
+      y={boxTop}
+      width="76"
+      height={boxHeight}
+      fill="none"
+      stroke="#3d3931"
+      stroke-width="1.2"
+      stroke-dasharray="3 3"></rect>
+    <text
+      x={payloadX + 38}
+      y={boxTop + 27}
+      text-anchor="middle"
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="10.5"
+      fill="#8f887b">PAYLOAD</text
+    >
+    <text
+      x={payloadX + 38}
+      y={boxTop + 40}
+      text-anchor="middle"
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="9.5"
+      fill="#5e594f">≤ 16 MiB</text
+    >
+    <text
+      x={payloadX + 2}
+      y={boxTop - 10}
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="10"
+      fill="#8f887b">18</text
+    >
+
+    <text
+      x={ORIGIN}
+      y="132"
+      font-family="IBM Plex Mono, ui-monospace, monospace"
+      font-size="10"
+      fill="#5e594f">BIG-ENDIAN · 18 + PAYLOADLEN BYTES TOTAL</text
+    >
+  </svg>
+</TechnicalDiagram>
