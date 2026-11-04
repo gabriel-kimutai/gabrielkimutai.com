@@ -1,8 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import SectionLabel from "../SectionLabel.astro";
-import ProjectFeatured from "../ProjectFeatured.astro";
-import ProjectPreview from "../ProjectPreview.astro";
 
 interface Props {
   featured: CollectionEntry<"projects">;
@@ -10,31 +7,64 @@ interface Props {
 }
 
 const { featured, others } = Astro.props;
+const projects = [featured, ...others];
+
+const images: Record<string, { src: string; alt: string }> = {
+  heimdall: {
+    src: "/images/heimdall.jpg",
+    alt: "Monochrome line engraving: a winged-hatted messenger holding a caduceus stands over a crowd of reaching figures, one man gazing skyward in heavy drapery",
+  },
+  plutus: {
+    src: "/images/plutus.jpg",
+    alt: "Monochrome line engraving: a robed woman offers a cup to a seated child beneath a vine-covered tree, with two goats and a young faun playing pipes beside a rocky arch",
+  },
+};
 ---
 
-<section class="section" id="work" aria-labelledby="work-heading">
-  <div class="wrap">
-    <div class="section-head">
-      <SectionLabel index="01" label="Work" />
-      <div>
-        <h2 id="work-heading">Selected work</h2>
-        <p class="muted">
-          Two projects I own end to end. Heimdall is the deep one and the only
-          place I have had to design a wire format. Plutus is smaller and
-          entirely on-device.
-        </p>
-      </div>
-    </div>
-    <ProjectFeatured project={featured} />
-    <div class="project-list">
-      {
-        others.map((project, i) => (
-          <ProjectPreview
-            project={project}
-            index={String(i + 2).padStart(2, "0")}
-          />
-        ))
-      }
-    </div>
+<section class="wrap home-sec" id="work" aria-labelledby="work-heading">
+  <div class="home-sechead">
+    <h2 id="work-heading">Work</h2>
+    <p>
+      Two projects, owned end to end. Heimdall is the deeper one, and the only
+      place I've designed a wire format. Plutus is smaller and runs entirely
+      on-device.
+    </p>
   </div>
+  {
+    projects.map((project, i) => {
+      const image = images[project.id];
+      const href = `/work/${project.id}/`;
+      return (
+        <article class="proj">
+          {image && (
+            <img
+              src={image.src}
+              alt={image.alt}
+              width="1200"
+              height="1200"
+              loading="lazy"
+            />
+          )}
+          <div class="proj__body">
+            <p class="meta">
+              {String(i + 1).padStart(2, "0")} ·{" "}
+              {project.data.date.getFullYear()}
+            </p>
+            <h3>
+              <a href={href}>{project.data.title}</a>
+            </h3>
+            <p>{project.data.description}</p>
+            <ul class="tag-list">
+              {project.data.categories?.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+            <a class="home-more" href={href}>
+              Read the case study →
+            </a>
+          </div>
+        </article>
+      );
+    })
+  }
 </section>

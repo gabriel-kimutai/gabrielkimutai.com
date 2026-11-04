@@ -1,43 +1,61 @@
 ---
-import { site, currently } from "../../site";
-import SectionLabel from "../SectionLabel.astro";
-import HeroDiagram from "../HeroDiagram.astro";
+import { site } from "../../site";
 ---
 
-<section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero__layout">
-    <div>
-      <div class="hero__meta">
-        <SectionLabel index="00" label="Intro" />
-      </div>
-      <h1 id="hero-title">{site.name}</h1>
-      <p class="hero__role">{site.role} · {site.location}</p>
-      <p class="hero__lede">
-        I build backend services, Android clients, and the networking in
-        between. Lately that has meant designing a binary protocol from the
-        header bytes up, which is a slower way to solve the problem and a much
-        better way to understand it.
-      </p>
-      <ul class="hero__links">
-        <li><a href="#work">Selected work</a></li>
-        <li><a href="/writing/">Writing</a></li>
-        <li>
-          <a href={site.github} rel="noopener noreferrer">GitHub</a>
-        </li>
-      </ul>
-      <dl class="hero__now">
-        {
-          currently.map((item) => (
-            <div class="hero__now-row">
-              <dt class="meta">{item.label}</dt>
-              <dd>
-                {item.href ? <a href={item.href}>{item.value}</a> : item.value}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
+<section class="wrap hero" aria-labelledby="hero-title">
+  <div class="hero__copy">
+    <p class="meta home-eyebrow">00 / {site.role} · {site.location}</p>
+    <h1 id="hero-title">Gabriel<br />Kimutai</h1>
+    <p class="hero__lede">
+      I work on backend services, Android clients, and the networking between
+      them. Right now I'm designing a binary protocol from the header bytes up,
+      which is slower, but I understand it better for it.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#work">Selected work</a>
+      <a class="btn" href="/writing/">Writing</a>
+      <a class="btn" href={site.github} rel="noopener noreferrer">GitHub</a>
     </div>
-    <HeroDiagram />
+  </div>
+  <div class="hero__art">
+    <img
+      src="/images/hero.png"
+      alt="Engraved illustration of a small figure standing beneath a vast flower made of intertwined bodies"
+      width="1839"
+      height="2400"
+      fetchpriority="high"
+    />
   </div>
 </section>
+
+<section class="wrap" aria-label="Current status">
+  <dl class="status">
+    <div>
+      <dt class="meta">Now</dt>
+      <dd>Full-stack developer at Innovative Tech Labs</dd>
+    </div>
+    <div>
+      <dt class="meta">Building</dt>
+      <dd><a href="/work/heimdall/">Heimdall</a></dd>
+    </div>
+    <div>
+      <dt class="meta">Reading</dt>
+      <dd>Protocol specs</dd>
+    </div>
+  </dl>
+</section>
+
+<figure class="wrap figure">
+  <img
+    src="/images/figure-01.jpg"
+    alt="Wide monochrome line engraving: a winged-hatted messenger with a caduceus stands over a crowd of reaching figures, with a man gazing skyward on the left and children at the lower right"
+    width="2000"
+    height="1000"
+    loading="lazy"
+  />
+  <figcaption class="meta">
+    Fig. 01 — Local discovery and control path. An Android client finds a
+    Heimdall daemon over mDNS, then talks to it through an authenticated
+    protocol to manage system, process and network capabilities.
+  </figcaption>
+</figure>

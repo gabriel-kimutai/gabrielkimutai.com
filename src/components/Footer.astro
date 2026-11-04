@@ -5,18 +5,17 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
-    <p>© {year} {site.name}</p>
-    <p class="site-footer__colophon">
-      Newsreader &amp; IBM Plex Mono · Astro · no trackers
-    </p>
     <p>
-      <a href={site.github} rel="noopener noreferrer">GitHub</a>
-      ·
-      <a href={site.linkedin} rel="noopener noreferrer">LinkedIn</a>
-      ·
-      <a href="/rss.xml">RSS</a>
-      ·
-      <a href={`mailto:${site.email}`}>Email</a>
+      <img src="/images/mark.png" alt="" width="24" height="24" />
+      © {year}
+      {site.name}
     </p>
+    <nav aria-label="Footer">
+      <a href={site.github} rel="noopener noreferrer">GitHub</a>
+      <a href={site.linkedin} rel="noopener noreferrer">LinkedIn</a>
+      <a href="/rss.xml">RSS</a>
+      <a href={`mailto:${site.email}`}>Email</a>
+    </nav>
   </div>
+  <div class="site-footer__wordmark" aria-hidden="true">{site.name}</div>
 </footer>

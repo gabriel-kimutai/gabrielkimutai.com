@@ -1,5 +1,5 @@
 html {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 100%;
   font-optical-sizing: auto;
   hanging-punctuation: first last;
@@ -10,7 +10,7 @@ body {
   line-height: var(--lh-body);
   font-weight: 400;
   color: var(--text);
-  letter-spacing: 0.005em;
+  letter-spacing: 0;
 }
 
 .meta,
@@ -25,7 +25,6 @@ pre,
 .project-index,
 .tech-meta {
   font-family: var(--font-mono);
-  font-feature-settings: "ss01" 0;
   letter-spacing: 0.02em;
 }
 
@@ -34,41 +33,38 @@ pre,
 .tech-meta,
 .project-index {
   font-size: var(--fs-meta);
-  line-height: var(--lh-meta);
+  line-height: 16px;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-muted);
+  letter-spacing: 0.16em;
+  color: var(--text-faint);
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-serif);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-weight: 300;
   line-height: var(--lh-heading);
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
   text-wrap: balance;
   color: var(--text);
 }
 
 h1 {
   font-size: var(--fs-h1);
-  font-variation-settings:
-    "opsz" 72,
-    "wght" 500;
+  line-height: 1;
 }
 
 h2 {
   font-size: var(--fs-h2);
-  font-variation-settings:
-    "opsz" 48,
-    "wght" 450;
+  line-height: 1.05;
 }
 
 h3 {
   font-size: var(--fs-h3);
+  line-height: 1.07;
 }
 
 p {
@@ -78,9 +74,9 @@ p {
 .lede,
 .lead {
   font-size: var(--fs-lead);
-  line-height: 1.45;
+  line-height: 1.55;
   color: var(--text);
-  max-width: 34rem;
+  max-width: 36rem;
 }
 
 .muted {
@@ -91,7 +87,7 @@ a {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
-  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  text-decoration-color: var(--border-strong);
 }
 
 a:hover {
@@ -107,13 +103,13 @@ summary:focus-visible {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 38%, transparent);
-  color: var(--text);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 code {
   font-size: 0.88em;
-  color: var(--accent-hover);
+  color: var(--text);
 }
 
 pre code {
@@ -133,9 +129,6 @@ pre code {
 .prose h3 {
   margin-top: var(--space-6);
   margin-bottom: var(--space-3);
-  font-variation-settings:
-    "opsz" 28,
-    "wght" 500;
 }
 
 .prose p + p {
@@ -156,7 +149,7 @@ pre code {
   padding-left: var(--space-4);
   border-left: 1px solid var(--accent);
   color: var(--text-muted);
-  font-style: italic;
+  font-style: normal;
 }
 
 .prose hr {

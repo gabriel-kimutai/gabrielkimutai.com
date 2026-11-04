@@ -1,58 +1,39 @@
 ---
 import { site } from "../../site";
-import SectionLabel from "../SectionLabel.astro";
 ---
 
-<section class="section" id="about" aria-labelledby="closing-heading">
-  <div class="wrap split">
-    <div>
-      <SectionLabel index="05" label="About" />
-      <h2 id="closing-heading">About</h2>
+<section class="wrap home-sec" id="about" aria-labelledby="about-heading">
+  <div class="about">
+    <h2 id="about-heading">About</h2>
+    <div class="about__body">
+      <p class="about__lead">
+        I prefer systems with explicit interfaces, clear boundaries, and
+        failures that surface where they originate.
+      </p>
+      <p>
+        Most of my work is in Go on the backend and Kotlin on Android, with
+        React and TypeScript when the browser needs it, plus Linux, Docker and
+        CI around all of it. I keep coming back to service discovery, realtime
+        channels, and the question of what two programs are allowed to say to
+        each other.
+      </p>
+      <a class="home-more" href="/about/">How I work →</a>
     </div>
-    <div>
-      <p class="lead">
-        I like systems with a shape you can explain out loud. Explicit
-        interfaces, boundaries you can point at, and failure modes that show up
-        where they were caused rather than three layers away.
-      </p>
-      <p class="muted">
-        Most of my work is Go on the backend and Kotlin on Android, with React
-        and TypeScript when something needs a browser, and Linux, Docker and CI
-        in the parts nobody sees. The problems I keep coming back to are
-        networking ones: service discovery, realtime channels, and deciding
-        exactly what two programs are allowed to say to each other.
-      </p>
-      <p class="section-more">
-        <a class="more-link" href="/about/">How I work →</a>
-      </p>
+  </div>
+</section>
 
-      <div id="contact" class="closing__contact">
-        <p class="meta">Contact</p>
-        <p class="muted closing__contact-note">
-          Email is best. I am most useful on backend systems, mobile clients,
-          and the networking and infrastructure around them.
-        </p>
-        <ul class="contact-list">
-          <li>
-            <a href={`mailto:${site.email}`}>
-              <span>Email</span>
-              <span>{site.email}</span>
-            </a>
-          </li>
-          <li>
-            <a href={site.github} rel="noopener noreferrer">
-              <span>GitHub</span>
-              <span>gabriel-kimutai</span>
-            </a>
-          </li>
-          <li>
-            <a href={site.linkedin} rel="noopener noreferrer">
-              <span>LinkedIn</span>
-              <span>gabriel-kimutai</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+<section
+  class="wrap home-sec contact"
+  id="contact"
+  aria-labelledby="contact-heading"
+>
+  <div class="contact__inner">
+    <h2 id="contact-heading">Contact</h2>
+    <p class="contact__note">Email is the best way to reach me.</p>
+    <a class="contact__email" href={`mailto:${site.email}`}>{site.email}</a>
+    <div class="contact__links">
+      <a class="btn" href={site.github} rel="noopener noreferrer">GitHub</a>
+      <a class="btn" href={site.linkedin} rel="noopener noreferrer">LinkedIn</a>
     </div>
   </div>
 </section>
