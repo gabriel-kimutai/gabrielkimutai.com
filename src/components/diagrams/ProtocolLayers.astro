@@ -39,7 +39,7 @@ const gap = 14;
 const top = 26;
 
 const strokeFor = (state: string) =>
-  state === "built" ? "#c97a3a" : state === "partial" ? "#8f887b" : "#3d3931";
+  state === "built" ? "#f2f2f2" : state === "partial" ? "#a8a8a8" : "#6b6b6b";
 ---
 
 <TechnicalDiagram
@@ -75,7 +75,7 @@ const strokeFor = (state: string) =>
               y={y + 21}
               font-family="IBM Plex Mono, ui-monospace, monospace"
               font-size="11"
-              fill={layer.state === "built" ? "#ece6d9" : "#8f887b"}
+              fill={layer.state === "built" ? "#f2f2f2" : "#a8a8a8"}
             >
               {layer.name}
             </text>
@@ -84,7 +84,7 @@ const strokeFor = (state: string) =>
               y={y + 21}
               font-family="IBM Plex Mono, ui-monospace, monospace"
               font-size="10.5"
-              fill={layer.state === "open" ? "#5e594f" : "#8f887b"}
+              fill={layer.state === "open" ? "#8c8c8c" : "#a8a8a8"}
             >
               {layer.note}
             </text>

@@ -21,10 +21,12 @@ const writing = (await getCollection("writing").catch(() => []))
 ---
 
 <PageLayout>
-  <Hero />
-  <SelectedWork featured={featured} others={others} />
-  <Writing entries={writing} />
-  <Engineering />
-  <Experience />
-  <Closing />
+  <div class="home">
+    <Hero />
+    <SelectedWork featured={featured} others={others} />
+    <Writing entries={writing} />
+    <Engineering />
+    <Experience />
+    <Closing />
+  </div>
 </PageLayout>

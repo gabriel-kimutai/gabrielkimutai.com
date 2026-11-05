@@ -1,5 +1,4 @@
 ---
-import SectionLabel from "../SectionLabel.astro";
 
 interface Experience {
   title: {
@@ -62,34 +61,29 @@ const items: Experience[] = [
 ];
 ---
 
-<section class="section" id="experience" aria-labelledby="exp-heading">
-  <div class="wrap">
-    <div class="section-head">
-      <SectionLabel index="04" label="Experience" />
-      <div>
-        <h2 id="exp-heading">Experience</h2>
-        <p class="muted">A compact record. No invented metrics.</p>
-      </div>
-    </div>
-    <ol class="timeline">
-      {
-        items.map((item) => (
-          <li>
-            <p class="meta timeline__meta">
-              {item.timeline.from} – {item.timeline.to} · {item.location.city},{" "}
-              {item.location.country}
+<section class="wrap home-sec" id="experience" aria-labelledby="exp-heading">
+  <div class="home-sechead">
+    <h2 id="exp-heading">Experience</h2>
+    <span></span>
+  </div>
+  <div class="rows">
+    {
+      items.map((item, i) => (
+        <div class="row">
+          <span class="meta">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <h3>{item.title.role}</h3>
+            <p class="row__sub">
+              {item.title.company} · {item.location.city}
             </p>
-            <h3>
-              {item.title.role}—{item.title.company}
-            </h3>
-            <ul class="dot-list">
-              {item.activities.map((activity) => (
-                <li>{activity}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
-    </ol>
+          </div>
+          <p>{item.activities.join(", ")}.</p>
+          <span class="meta row__date">
+            {item.timeline.from} –{" "}
+            {item.timeline.to === "Present" ? "Now" : item.timeline.to}
+          </span>
+        </div>
+      ))
+    }
   </div>
 </section>
